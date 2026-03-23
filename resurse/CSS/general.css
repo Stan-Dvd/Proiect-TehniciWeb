@@ -1,0 +1,341 @@
+body {
+    /* declaram variabile CSS */
+    --col-1: #E6E0D1;
+    /* col-fundal */
+    --col-2: #CBB799;
+    --col-3: #A07856;
+    --col-4: #6F4D38;
+    --col-5: #3D211A;
+    /* col-5 */
+
+    --margine-pagina: 100px;
+    background-color: var(--col-1);
+}
+
+html {
+    font-size: 18px;
+
+}
+
+main {
+    margin-left: var(--margine-pagina);
+    margin-right: var(--margine-pagina);
+}
+
+#title-text {
+    margin-left: 100px;
+}
+
+#grid-pagina {
+    display: grid;
+    gap: 10px;
+    /* rezolvare punctul b*/
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    /* fr de la fraction */
+    grid-template-areas: "welcome welcome welcome welcome"
+        /* welcome se intinde pe toate cele 3 coloane */
+        "promotii promotii index-intrebari index-intrebari"
+        "promotii promotii evenimente evenimente"
+        "orar produse produse anunturi"
+        "noutati noutati noutati noutati"
+}
+
+#grid-pagina>* {
+    /* selectam toti fiii de orice fel sub grid-pagina*/
+    padding: 10px;
+    box-shadow: 0px 0px 5px var(--col-5);
+    border: 1px solid var(--col-5);
+}
+
+#welcome {
+    grid-area: welcome;
+}
+
+#welcome>hgroup>* {
+    margin: 0;
+}
+
+#promotii {
+    grid-area: promotii;
+}
+
+#anunturi {
+    grid-area: anunturi;
+}
+
+#orar {
+    grid-area: orar;
+}
+
+#fig1 {
+    grid-area: fig1;
+}
+
+#fig2 {
+    grid-area: fig2;
+}
+
+#fig3 {
+    grid-area: fig3;
+}
+
+#produse {
+    grid-area: produse;
+}
+
+#index-intrebari {
+    grid-area: index-intrebari;
+}
+
+#noutati {
+    grid-area: noutati;
+}
+
+#evenimente {
+    grid-area: evenimente;
+}
+
+figure {
+    margin: 0;
+    /* resetare margine */
+}
+
+figure>img {
+    width: 100%;
+    /* facem asta si pt iframe-uri si alte elemente in containere */
+}
+
+
+/* ca sa facem tab-urile sa fie fiecare pe un rand */
+.container-iframe {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* height: 400px;
+    width: 800px; */
+}
+
+.container-iframe iframe {
+    margin-left: 20px;
+    margin-right: 20px;
+    width: 100%;
+}
+
+.taburi-iframe {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    /* height: 100%; */
+    justify-content: center;
+    /* border: 1px solid var(--col-5) */
+    /* daca vrei deasupra, pui
+    flex-dir: row
+    scoti height */
+    /* daca vrei jos, pui in container flex-dir: row-reverse */
+    width: 80%;
+}
+
+.taburi-iframe>a {
+    display: inline block;
+    /*block, dar pot fi mai multe pe linie */
+    padding: 10px;
+    text-align: center;
+    background-color: var(--col-1);
+    border: 2px solid var(--col-5);
+    color: black;
+    text-decoration: none;
+    /*scot sublinierea de link*/
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    box-shadow: var(--col-4);
+    margin-left: 5px;
+    margin-right: 5px;
+    /* margin-right: 10px; */
+    transition: all 0.5s ease-in-out;
+
+}
+
+.taburi-iframe>a:hover {
+    background-color: var(--col-5);
+    color: white;
+}
+
+
+
+#tab-orar {
+    caption-side: bottom;
+    border: 5px inset;
+    border-color: var(--col-2);
+}
+
+#tab-orar td,
+#tab-orar th {
+    /* border la tabel */
+    /* border: 1px solid; */
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    padding: 5px;
+    text-align: center;
+
+}
+
+#tab-orar tbody tr {
+    border-top: 1px solid;
+    border-top-color: var(--col-3);
+    transition: ease-in-out 0.3s;
+}
+
+#tab-orar tbody tr:nth-child(even) {
+    /* coloane cu culori alternante */
+    border-top-color: var(--col-4);
+    /* obs ca pt zile lucratoare/weekend arata naspa si n-are sens, le pui o clasa separata */
+
+}
+
+#tab-orar tfoot {
+    border-top: 1px solid var(--col-4);
+}
+
+#tab-orar tbody tr:hover {
+    /* border: 5px black; */
+    border-left: 5px;
+    border-right: 5px;
+    border-top: 5px;
+    border-bottom: 5px;
+    border-style: solid;
+    border-color: var(--col-4);
+
+}
+
+.tb-zile {
+    background-color: var(--col-1);
+}
+
+#tab-orar {
+    border-collapse: collapse;
+    /* contopeste border-urile comune intre  */
+}
+
+@media screen and (max-width:1200px) {
+    /* asta se va aplica pt marimi de ecran sub 1200px */
+    /* OBS! e important ca asta sa fie la sfarsit, ca sa suprascrie lucrurile de mai sus */
+
+    html {
+        font-size: 16px;
+    }
+
+    #grid-pagina {
+        grid-template-columns: 1fr 1fr;
+        gap: 5px;
+        /* rezolvare punctul b*/
+
+        grid-template-areas: "welcome welcome"
+            /* welcome se intinde pe toate cele 3 coloane */
+            "promotii evenimente"
+            "anunturi orar"
+            "produse produse"
+            "index-intrebari index-intrebari"
+            "noutati noutati";
+    }
+
+    /* redefinim grid-ul pentru ecrane mai mici */
+
+    body {
+        --margine-pagina: 80px;
+        /* doar suprascriu variabila de mai sus */
+    }
+
+}
+
+
+
+@media screen and (max-width:700px) {
+    /* asta se va aplica pt marimi de ecran sub 1200px */
+    /* OBS! e important ca asta sa fie la sfarsit, ca sa suprascrie lucrurile de mai sus */
+
+    html {
+        font-size: 14px;
+    }
+
+    #grid-pagina {
+        display: block;
+        /* facem afisarea div-urilor default */
+    }
+
+    body {
+        --margine-pagina: 50px;
+        /* doar suprascriu variabila de mai sus */
+    }
+
+    #orar {
+        width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    #tab-container {
+        /* display: block;      */
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    #tab-orar {
+        width: 100%;
+        display: table;
+    }
+}
+
+footer {
+    background-color: var(--col-2);
+}
+
+#footer-container {
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+#link-top {
+    position: fixed;
+    display: block;
+    bottom: 0.5em;
+    opacity: 0.5;
+    left: 0.5em;
+    box-sizing: border-box;
+    width: 3rem;
+    height: 3rem;
+    line-height: 3rem;
+    text-align: center;
+    border: 2px solid grey;
+    border-radius: 50%;
+    background: rgb(220, 220, 220);
+    text-decoration: none;
+    box-shadow: 0px 0px 10px 3px var(--col-5);
+    transition: ease-in-out .6s;
+}
+
+#link-top:hover {
+    opacity: 1;
+    /* transition: ease-in-out 1s; */
+}
+
+#triunghi {
+    width: 100%;
+    height: 100%;
+}
+
+#triunghi>* {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#triunghi p {
+    margin: 0px;
+    font-size: 1.8rem;
+    line-height: 1;
+    color: var(--col-5);
+    font-weight: 600;
+    font-size: 38px;
+}

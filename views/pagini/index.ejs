@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <title>Camera Obscura</title>
+    <meta name="description"
+        content="Camera Obscura ofera o varietate de echipamente fotografice, in special camere si obiective, cu optiunea de achizitie online si livrare prin curier.">
+    <meta name="keywords"
+        content="magazin, camera, camera foto, aparat foto, aparat mirrorless, dSLR, mirrorless, fotografie, obiectiv, obiective, Canon, Nikon, Sony, Fujifilm">
+
+    <%- include("../fragmente/head.ejs") %>
+
+</head>
+
+<body>
+
+    <%- include("../fragmente/header.ejs") %>
+
+        <section id="title-text">
+            <header class="c1" id="titlu">
+                <h1 id="t">Camera <span>Obscura</span></h1>
+            </header>
+        </section>
+        <main> <!--  comentariu -->
+            <div id="grid-pagina">
+
+                <section id="welcome">
+                    <hgroup>
+                        <h2>Bine ati venit</h2>
+                        <p class="subtitlu">Prezentarea magazinului</p>
+                    </hgroup>
+
+                    <p class="intro">Vă mulțumim că ne vizitați magazinul. Aici veti gasi o multime de echipamente
+                        pentru fotografie - de la camere si obiective
+                        pana la carduri de memorie si baterii, toate de la brandurile voastre preferate - <b>Canon,
+                            Nikon, Sony, Fujifilm</b> si altele!</p>
+
+                    <!-- <div class="intro-oferte"><div>Pateuri</div><div>Bomboane</div><div>Fursecuri</div><div>Prajituri</div><div>Torturi</div></div> -->
+                    <div id="dv-prezentare-1">
+                        <div id="dv-prezentare">
+                            <!-- 
+                        <picture>
+                        <source srcset="/resurse/imagini/macarons-200x200.jpg" media="(max-width:700px)"/>
+                        <source srcset="/resurse/imagini/macarons.jpg" media="(max-width:1200px)"/>
+                        <img src="/resurse/imagini/macarons-640x360.jpg" alt="text_ex_pic"/>
+                    </picture> 
+                    -->
+
+                            <figure id="logo" title="logo" class="fg-img">
+                                <picture>
+                                    <!-- il ia pe primul care se potriveste cu query-ul din media-->
+                                    <source srcset="/resurse/imagini/Logo_text_xs.png" media="(max-width:700px)">
+                                    <source srcset="/resurse/imagini/Logo_text_s.png" media="(max-width:1200px)">
+                                    <!-- la astea doua aveam alt text da mi-a dat eroare si am zis ok pa -->
+                                    <img src="resurse/imagini/Logo_text.png" alt="logo_text_full">
+                                </picture>
+                                <figcaption>Bun venit!</figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                </section>
+                <section id="promotii">
+                    <h2>Promoții și oferte</h2>
+                    <article>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec velit ut augue dapibus
+                            convallis vitae nec sem.
+                            Cras et ante non dui aliquet rhoncus. Curabitur luctus diam quis nulla efficitur eleifend.
+                            Mauris condimentum finibus eros a viverra. Maecenas faucibus neque justo, non ultricies
+                            lectus rutrum in.
+                            Fusce non tellus felis. Aenean sed tristique nisl.</p>
+
+                        Interdum et malesuada fames ac ante ipsum primis in faucibus.
+                        Pellentesque imperdiet non est maximus finibus. Quisque at risus ut tortor rhoncus ornare.
+                        Donec eget turpis nibh. Vivamus et ligula fermentum, lobortis ipsum id, dignissim ex.
+                        Sed pretium rhoncus odio sit amet rhoncus. Vestibulum ex.
+                    </article>
+                </section>
+                <section id="produse">
+                    <h2>Produsele noastre</h2>
+                    <p>Avem o gama larga de camere si obiective, pentru fotografi incepatori, amatori si profesionisti
+                    </p>
+                    <section id="camere-mi">
+                        <h3>Camere <i>Mirrorless</i></h3>
+                        <p>Cele mai noi camere de la toti producatorii cunoscuti</p>
+                        <ul>
+                            <li>Pentru incepatori</li>
+                            <li>Pentru entuziasti</li>
+                            <li>Pentru profesionisti</li>
+                        </ul>
+                    </section>
+                    <section id="camere-dslr">
+                        <h3>Camere <i><abbr title="digital Single Reflex Camera">dSLR</abbr></i></h3>
+                        <p>Old but gold!</p>
+                        <ul>
+                            <li>Pentru incepatori</li>
+                            <li>Pentru entuziasti</li>
+                            <li>Pentru profesionisti</li>
+                        </ul>
+                    </section>
+
+                    <section id="camere-bridge">
+                        <h3>Camere compacte si <i>bridge</i></h3>
+                        <ul>
+                            <li>Camere compacte</li>
+                            <li>Camere premium compact</li>
+                            <li>Camere bridge</li>
+                        </ul>
+                    </section>
+                </section>
+                <section id="orar">
+                    <h2>Program zilnic</h2>
+                    <div id="table-container">
+                        <table id="tab-orar">
+                            <caption>Orar</caption>
+                            <thead>
+                                <tr>
+                                    <th>Perioadă</th>
+                                    <th>Zi</th>
+                                    <th>Interval orar</th>
+                                    <th>Pauza de masa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td rowspan="5" class="tb-zile">Zile<br />Lucrătoare</td>
+                                    <td>Luni</td>
+                                    <td>10-20</td>
+                                    <td>14-15</td>
+                                </tr>
+                                <tr>
+                                    <td>Marti</td>
+                                    <td>9-21</td>
+                                    <td>14-15</td>
+                                </tr>
+                                <tr>
+                                    <td>Miercuri</td>
+                                    <td>9-21</td>
+                                    <td>13-14</td>
+                                </tr>
+                                <tr>
+                                    <td>Joi</td>
+                                    <td>9-21</td>
+                                    <td>13-14</td>
+                                </tr>
+                                <tr>
+                                    <td>Vineri</td>
+                                    <td>9-19</td>
+                                    <td>13-14</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2" class="tb-zile">Weekend</td>
+                                    <td>Sambata</td>
+                                    <td>10-16</td>
+                                    <td>13-14</td>
+                                </tr>
+                                <tr>
+                                    <td>Duminica</td>
+                                    <td>10-14</td>
+                                    <td>-</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4">Închis cu ocazia sărbătorilor legale</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <p><strong>Atentie!!!</strong> in prima zi a lunii facem inventar.</p>
+                </section>
+                <!-- <figure id="fig1" class="fg-img">
+                <img src="resurse/imagini/Logo_small.pngs" alt="img">
+                <figcaption>Img 1</figcaption>
+            </figure>
+            <figure id="fig2" class="fg-img">
+            <img src="resurse/imagini/briose-frisca.pngs" alt="img">
+            <figcaption>Img 2</figcaption>
+            </figure>
+            <figure  id="fig3" class="fg-img">
+            <img src="resurse/imagini/briose-frisca.pngs" alt="img">
+            <figcaption>Img 3</figcaption> 
+            </figure> -->
+
+                <section id="evenimente">
+                    <h2 class="fg-img">Evenimente</h2>
+                    <p>
+                        Interdum et malesuada fames ac ante ipsum primis in faucibus.
+                        Pellentesque imperdiet non est maximus finibus. Quisque at risus ut tortor rhoncus ornare.
+                        Donec eget turpis nibh. Vivamus et ligula fermentum, lobortis ipsum id, dignissim ex.
+                        Sed pretium rhoncus odio sit amet rhoncus. Vestibulum ex.
+                    </p>
+                </section>
+
+                <section id="anunturi">
+                    <h2 class="fg-img">Anunțuri</h2>
+                    <ul>
+                        <li>
+                            <p><time datetime="2026-03-02">2 Martie 2026</time> <span> <strong>Magazinul va fi inchis pe
+                                        data de 26 Martie 2026!</strong></span></p>
+                        </li>
+                        <li>
+                            <p><time datetime="2025-11-20">20 Noiembrie 2025</time> <span> <b>Lansare produs: </b> -Noul
+                                    aparat Fujifilm X-Half este acum disponibil!</span></p>
+                        </li>
+                        <li>
+                            <p><time datetime="2025-10-25">25 Octombrie 2025</time> <span> <b>Lansare produs: </b> -
+                                    Noul aparat mirrorless Sony A7R IV este acum disponibil!</span></p>
+                        </li>
+                    </ul>
+
+                </section>
+
+                <section id="noutati">
+                    <h2>Noutati</h2>
+                    <p>Va prezentam cateva noutati din lumea fotografiei. Lansari de camere noi, anunturi si alte
+                        lucruri interesante</p>
+                    <p>Zile pana la lansarea Fujifilm X-T6: <meter min="0" max="100" value="10" low="21" high="60"
+                            optimum="1"></meter></p>
+                    <p>Zile pana la deschiderea noului magazin: <meter min="0" max="100" value="60" low="21" high="60"
+                            optimum="1"></meter></p>
+                    <div class="container-iframe">
+                        <div class="taburi-iframe">
+                            <a href="https://www.youtube.com/embed/9-6BrA7cFDA" target="ifr-video">Mini-documentar <br>
+                                despre obiective Fujifilm</a>
+                            <a href="https://www.youtube.com/embed/oCzSykdbX_o" target="ifr-video">Lansare camera <br>
+                                cinematica de la Fujifilm!</a>
+                            <a href="https://www.youtube.com/embed/VxyFE5q6X0s" target="ifr-video">Sony anunta <br> noua
+                                camera Sony a7 V</a><br />
+                        </div>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/9-6BrA7cFDA"
+                            name="ifr-video" title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                </section>
+
+                <section id="index-intrebari">
+                    <h2>Întrebări frecvente</h2>
+                    <details>
+                        <summary>Care e diferenta dintre aparatele <i>Mirrorless</i> si <i>dSLR</i>? </summary>
+                        <p>Aparatele dSLR sunt tehnologia mai veche si nu se mai produc aparate noi.
+                            In general, sunt mai mari si mai grele, iar focalizarea prin ecranul LCD este inceata.
+                            Mirrorless sunt tehnologia noua. Sunt mai compacte datorita lipsei unei pentaprisme si
+                            expunerea imaginii poate fi previzualizata cu usurinta</p>
+                        <a href="https://www.canon-europe.com/get-inspired/tips-and-techniques/dslr-vs-mirrorless/"
+                            target="_blank">Articol informativ de la Canon</a>
+                        <a href="/resurse/Imagini/dslr-vs-mirrorless.jpg"> <br>Imagine explicativa</a>
+                        <a href="/resurse/Imagini/dslr-vs-mirrorless.jpg" download="dslr-vs-mirrorless_download.jpg">
+                            <br>Descarca imaginea</a>
+
+                    </details>
+                    <details>
+                        <summary>Ce este o camera <i>bridge</i>?</summary>
+                        <p>O camera <i>bridge</i> este gandita sa fie un pod intre camerele compacte, de incepatori,
+                            catre camerele
+                            cu obiectiv interschimbabil, mai profesionale. In general, sunt camere similare cu cele dSLR
+                            sau Mirrorless, cu multe functii
+                            in comun, dar cu un element cheie lipsa - <b>obiectivul interschimbabil</b></p>
+                        <a href="https://en.wikipedia.org/wiki/Bridge_camera#Comparison_to_other_camera_types"
+                            target="_blank">https://en.wikipedia.org/wiki/Bridge_camera#Comparison_to_other_camera_types</a>
+                    </details>
+                </section>
+
+            </div>
+
+
+
+
+        </main>
+
+        <%- include("../fragmente/footer.ejs") %>
+
+</body>
+
+</html>

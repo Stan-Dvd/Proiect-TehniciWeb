@@ -1,0 +1,35 @@
+/* nav700{
+    --latime-buton: 120px;
+    --inaltime-buton: 40px;
+    background-color: var(--col-5);
+} */
+
+#hamburger{
+    display: block;
+}
+
+#hamburger > img{
+    height: 3em; 
+    /* em e relativ la marimea containerului */
+    width: auto;
+
+}
+
+ul.meniu{
+    display: none;
+}
+
+#ch-menu:checked + ul.meniu{
+    display: block;
+    position: absolute;
+    /* top: 0; */
+    width: 100%;
+}
+
+ul.meniu li{
+    width: 100%;
+}
+
+ul.meniu ul{
+    width:100%;
+}
