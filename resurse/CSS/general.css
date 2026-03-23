@@ -181,13 +181,13 @@ figure>img {
 
 #tab-orar tbody tr {
     border-top: 1px solid;
-    border-top-color: var(--col-3);
+    border-top-color: var(--col-4);
     transition: ease-in-out 0.3s;
 }
 
 #tab-orar tbody tr:nth-child(even) {
     /* coloane cu culori alternante */
-    border-top-color: var(--col-4);
+    border-top-color: var(--col-2);
     /* obs ca pt zile lucratoare/weekend arata naspa si n-are sens, le pui o clasa separata */
 
 }
@@ -255,6 +255,11 @@ figure>img {
 
     html {
         font-size: 14px;
+    }
+
+    *, *::before, *::after{
+        animation: none;
+        transition: none;
     }
 
     #grid-pagina {
