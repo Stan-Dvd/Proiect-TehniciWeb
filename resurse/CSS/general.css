@@ -10,10 +10,11 @@ body {
 
     --margine-pagina: 100px;
     background-color: var(--col-1);
+    --font_size: 18px;
 }
 
 html {
-    font-size: 18px;
+    font-size: var(--font_size);
 
 }
 
@@ -24,6 +25,10 @@ main {
 
 #title-text {
     margin-left: 100px;
+}
+
+#watermark{
+    display: none;
 }
 
 #grid-pagina {
@@ -221,7 +226,7 @@ figure>img {
     /* OBS! e important ca asta sa fie la sfarsit, ca sa suprascrie lucrurile de mai sus */
 
     html {
-        font-size: 16px;
+        font-size: var(--font_size)-2;
     }
 
     #grid-pagina {
@@ -254,7 +259,7 @@ figure>img {
     /* OBS! e important ca asta sa fie la sfarsit, ca sa suprascrie lucrurile de mai sus */
 
     html {
-        font-size: 14px;
+        font-size: var(--font_size)-4;
     }
 
     *, *::before, *::after{

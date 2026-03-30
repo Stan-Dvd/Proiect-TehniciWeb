@@ -1,115 +1,131 @@
-nav{
-    --latime-buton: 200px;
-    --inaltime-buton: 40px;
-    background-color: var(--col-5);
+nav {
+  --latime-buton: 200px;
+  --inaltime-buton: 40px;
+  background-color: var(--col-5);
+  --anim-dur: .5s;
+  --anim-type: ease-in-out;
+  --button-opacity: 0.4;
 }
 
-html{
-    font-family: "Roboto Slab";
+#hamburger,
+#ch-menu {
+  display: none;
+  /* ascundem bifa si simbolul de meniu pt mobil */
+  /* (eu le-am sters ca nu intelegeam ce sunt)     */
 }
 
-#hamburger, #ch-menu{
-    display: none;
-    /* ascundem bifa si simbolul de meniu pt mobil */
-    /* (eu le-am sters ca nu intelegeam ce sunt)     */
+.text-icon,
+.imag-icon {
+  display: inline-block;
+  /* ca sa apara iconitele in linie cu textul */
 }
 
-.text-icon, .imag-icon{
-    display: inline-block;
-    /* ca sa apara iconitele in linie cu textul */
+ul.meniu ul, ul.meniu {
+  list-style-type: none;
+  /* ascunde bullet-uri */
+  padding: 0;
+  margin: 0;
 }
 
-ul.meniu, ul{
-    list-style-type: none;
-    /* ascunde bullet-uri */
-    padding: 0;
-    margin: 0;
-    border-right: 40px;
+ul.meniu {
+  display: flex;
+  position: relative;
 }
-
-ul.meniu{
-    display: flex;
-    position: relative; 
-    /* devine referinta pentru cei de jos cu position: absolute */
+ul.meniu ul {
+  display: none;
+  z-index: 10;
+  /* il plaseaza -in fata- celorlalte elemente de pe pagina (care by default au z-index: 0 */
 }
-
-/* OBS! aici tb spatiu in loc de > 
-pt ca > inseamna fiu DIRECT */
-ul.meniu ul{
-    display: none;
-    z-index: 10;
-    /* il plaseaza -in fata- celorlalte elemente de pe pagina (care by default au z-index: 0 */
+ul.meniu li {
+  position: relative;
+  font-weight: bold;
+  width: var(--latime-buton);
+  height: var(--inaltime-buton);
+  /* padding: 10px; */
+  /* OBS! daca pui padding nu mai merg lucrurile cu width/height 100% (cum ar fi link-ul pe tot butonul) */
+  background-color: var(--col-2);
+  border: 1px solid var(--col-5);
+  color: black;
+  text-align: center;
+  /* centram textul pe oriz. */
+  line-height: var(--inaltime-buton);
+  /* ca sa centram textul pe verticala */
+  text-decoration: none;
+  /*scot sublinierea de link*/
+  /* border-top-left-radius: 5px;
+  border-top-right-radius: 5px; */
+  /* margin-right: 10px; */
+  transition: all 0.5s ease-in-out;
 }
-
-ul.meniu > li:hover > ul{
-    /* e >ul deci afiseaza doar submeniul direct */
-    display: block;
-    position: absolute;
-    /* se aliniaza fata de primul container de sus cu pozitie statica (position ne-absolut) */
-    animation: animatie_submeniu 0.5s ease-in-out;
-    transform-origin: center top;
-    /* schimbam originea ca sa incepe sa dea fade-in direct de sub buton, nu de undeva de mai jos */
+ul.meniu li a {
+  color: black;
+  text-decoration: none;
+  transition: all var(--anim-dur) var(--anim-type);
+  /* ca sa se activeze link-ul apasand oriunde pe buton */
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+ul.meniu > li::before {
+  content: "";
+  /* Set the element as full-size */
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--latime-buton);
+  height: var(--inaltime-buton);
+  /* Set bg and hide the element + animation */
+  background-color: var(--col-1);
+  opacity: 0;
+  transition: all 0.5s ease 0s;
+}
+ul.meniu > li:hover::before {
+  /* Show the overlay on hover */
+  opacity: var(--button-opacity);
+  transform-origin: center;
+  animation: animatie_buton var(--anim-dur) var(--anim-type);
+}
+ul.meniu li:hover > ul {
+  /* e >ul deci afiseaza doar submeniul direct */
+  display: block;
+  position: absolute;
+  /* se aliniaza fata de primul container de sus cu pozitie statica (position ne-absolut) */
+  animation: animatie_submeniu var(--anim-dur) var(--anim-type);
+  transform-origin: top left;
+  /* schimbam originea ca sa incepe sa dea fade-in direct de sub buton, nu de undeva de mai jos */
+}
+ul.meniu li:hover a {
+  color: black;
+}
+ul.meniu li:hover ul a:hover {
+  color: white;
+  background-color: var(--col-5);
+  cursor: pointer;
 }
 
 /* OBS! nu poti face submeniul sa dea fade-in prin a pune transition mai sus.
 Transition interpoleaza intre 2 valori, dar display:none/block e doar un bool, nu are valori intre ele
 Deci trebuie sa definim o animatie */
-@keyframes animatie_submeniu{
-    /* acum se va interpola intre valorile din keyframe-uri */
-    0%{
-        opacity: 0;
-        transform: scale(0, 0);
-    }
-    50%{
-        transform: scale(0.5, 1);
-    }
-    100%{
-        opacity: 1;
-        transform: scale(1, 1);
-    }
+@keyframes animatie_submeniu {
+  /* acum se va interpola intre valorile din keyframe-uri */
+  0% {
+    opacity: 0;
+    transform: scale(0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1, 1);
+  }
+}
+@keyframes animatie_buton {
+  0% {
+    opacity: 0;
+    transform: scale(0, 0);
+  }
+  100% {
+    opacity: var(--button-opacity);
+    transform: scale(1, 1);
+  }
 }
 
-/* OBS! spatiu inseamna orice sub elementul resp */
-/* pana acum am folosi >, care selecteaza ceva anume de sub el */
-ul.meniu li{
-    font-weight: bold;
-    width: var(--latime-buton);
-    height: var(--inaltime-buton);
-    /* padding: 10px; */
-    /* OBS! daca pui padding nu mai merg lucrurile cu width/height 100% (cum ar fi link-ul pe tot butonul) */
-    background-color: var(--col-2);
-    border: 1px solid var(--col-5);
-    color: black;
-    text-align: center;
-    /* centram textul pe oriz. */
-    line-height: var(--inaltime-buton);
-    /* ca sa centram textul pe verticala */
-    text-decoration: none; 
-    /*scot sublinierea de link*/
-    /* border-top-left-radius: 5px;
-    border-top-right-radius: 5px; */
-    /* margin-right: 10px; */
-    transition: all 0.5s ease-in-out;
-}
-
-ul.meniu li a{
-    color:black;
-    text-decoration: none;
-    transition: all 0.5s ease-in-out;
-
-    /* ca sa se activeze link-ul apasand oriunde pe buton */
-    width: 100%;
-    height: 100%;
-    display: block;
-}
-
-ul.meniu li:hover{
-    background-color: var(--col-5);
-    color: white;
-    cursor: pointer;
-}
-
-ul.meniu li:hover a{
-    color:white;
-}
-
+/*# sourceMappingURL=nav.css.map */

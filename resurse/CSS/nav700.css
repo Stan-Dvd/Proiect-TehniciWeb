@@ -1,8 +1,11 @@
-/* nav700{
+nav700{
     --latime-buton: 120px;
     --inaltime-buton: 40px;
     background-color: var(--col-5);
-} */
+    --anim-dur: 1s;
+    --anim-type: linear;
+    --button-opacity: 0.4;
+}
 
 #hamburger{
     display: block;
@@ -24,6 +27,7 @@ ul.meniu{
     position: absolute;
     /* top: 0; */
     width: 100%;
+    animation: ham_anim var(--anim-dur) var(--anim-type);
 }
 
 ul.meniu li{
@@ -32,4 +36,30 @@ ul.meniu li{
 
 ul.meniu ul{
     width:100%;
+}
+
+ul.meniu li:hover > ul{
+    animation: none;
+}
+
+ul.meniu li:before{
+    width: 100%;
+}
+
+@keyframes ham_anim{
+    0% {
+        clip-path: polygon(0% 0%, 0% 100%);
+    }
+
+    20%{
+        clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 0% 50%, 0% 0%);
+    }
+
+    99%{
+        clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 120% 50%, 100% 0%);
+    }
+
+    100% {
+        clip-path: none;
+    }
 }

@@ -1,0 +1,108 @@
+html{
+    --watermark-opacity: 0.65
+}
+
+@media print {
+
+    main {
+        margin-left: 20px;
+        margin-right: 20px;
+        background-color: white;
+    }
+
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    h1 {
+        page-break-after: always;
+        margin-top: 60%;
+        text-align: center;
+        text-decoration: underline;
+        /* margin-left: 1cm; */
+    }
+
+    #title-text {
+        margin-left: 0;
+    }
+
+    nav {
+        display: none;
+    }
+
+    img {
+        display: none;
+    }
+
+    #banner {
+        position: absolute;
+        display: block;
+        text-align: center;
+        top: 0;
+        width: 80%;
+        border: black;
+        border-style: dotted;
+        margin: 0 auto;
+        margin-left: 10%;
+        margin-right: 10%;
+        /* margin-top: 0;
+        margin-bottom: 0;
+        margin-left: auto;
+        margin-right: auto; */
+    }
+
+    #link-top {
+        display: none;
+    }
+
+    .container-iframe {
+        display: none;
+    }
+
+    #grid-pagina {
+        display: block;
+    }
+
+    #watermark {
+        display: block;
+        position: fixed;
+        /*apare pe toate paginile*/
+        bottom: 0;
+        color: rgba(0, 0, 0, --watermark-opacity);
+        right: 0;
+    }
+
+    #watermark::after {
+        opacity: var(--watermark-opacity);
+        padding: 5px;
+        display: block;
+        background: white;
+        border: 2px solid rgba(0, 0, 0, --watermark-opacity);
+        border-style: double;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        border-right: none;
+        content: "Copyright Stan David";
+    }
+
+}
+
+@page {
+    size: A4 portrait;
+    margin-bottom: 2cm;
+    margin-top: 2cm;
+    counter-increment: page;
+
+}
+
+@page: left {
+    margin-left: 2cm;
+    margin-right: 1cm;
+    border-radius: 20cm;
+}
+
+@page: right {
+    margin-right: 2cm;
+    margin-left: 1cm;
+}
