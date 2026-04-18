@@ -72,7 +72,7 @@ ul.meniu {
         }
     }
 
-    >li::before {
+    >li::after {
         content: "";
         /* Set the element as full-size */
         position: absolute;
@@ -84,9 +84,10 @@ ul.meniu {
         background-color: var(--col-1);
         opacity: 0;
         transition: all 0.5s ease 0s;
+        z-index: 0;
     }
 
-    >li:hover::before {
+    >li:hover::after {
         /* Show the overlay on hover */
         opacity: var(--button-opacity);
         transform-origin: center;

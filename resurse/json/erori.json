@@ -10,14 +10,14 @@
             "identificator":404,
             "status":true,
             "titlu":"404",
-            "text": "Nu-i pe serverul ăsta, sorry, caută în altă parte!",
+            "text": "Not found",
             "imagine":"lupa.png"
         },
         {
             "identificator":403,
             "status":true,
             "titlu":"403 - Forbidden",
-            "text": "Ai greșit ruta. Stânga-împrejur și pa!",
+            "text": "Forbidden route",
             "imagine":"interzis.png"
         },
         {

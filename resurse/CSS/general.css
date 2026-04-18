@@ -23,11 +23,44 @@ main {
     margin-right: var(--margine-pagina);
 }
 
+a {
+    color: blue;
+}
+
+a:visited {
+    color: var(--col-4)
+}
+
+a[href^='http']:after {
+    content: "⮳";
+    font-size: 1.5em;
+}
+
+a[href^='http']:hover:after {
+    color: red;
+}
+
+main a {
+    /* background: #59ADCF; */
+    background: radial-gradient(circle, rgba(89, 173, 207, 1) 0%, rgba(89, 173, 207, 1) 40%, rgba(237, 221, 83, 0) 80%, rgba(237, 221, 83, 0) 100%);
+    background-size: 0%;
+    background-position: center;
+}
+
+main a:hover {
+    background-size: 100%;    
+    transition: 0.5s linear;
+}
+
+main a:active{
+    border: 2px black;
+}
+
 #title-text {
     margin-left: 100px;
 }
 
-#watermark{
+#watermark {
     display: none;
 }
 
@@ -262,7 +295,9 @@ figure>img {
         font-size: var(--font_size)-4;
     }
 
-    *, *::before, *::after{
+    *,
+    *::before,
+    *::after {
         animation: none;
         transition: none;
     }

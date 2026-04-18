@@ -2,6 +2,8 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const sass = require("sass");
+const sharp= require("sharp");
+
 
 app = express();
 app.set("view engine", "ejs")
@@ -41,14 +43,16 @@ for( let folder of vect_foldere){
 }
 
 app.use("/resurse", express.static(path.join(__dirname, "resurse")))
+app.use("/dist", express.static(path.join(__dirname, "node_modules/dist")))
+
 //orice caut in /resurse cauta in acest folder
 
 
-app.get("/what", function (req, res) {
-    res.write("123");
-    res.write("456");
-    res.end();
-})
+// app.get("/what", function (req, res) {
+//     res.write("123");
+//     res.write("456");
+//     res.end();
+// })
 
 function initErori() {
     let continut = fs.readFileSync(path.join(__dirname, "resurse/json/erori.json")).toString("utf-8");
@@ -87,6 +91,32 @@ function afisareEroare(res, identificator, titlu, text, imagine) {
 app.get("/eroare", function (req, res) {
     afisareEroare(res, 404, "Error 404 - no tengo dinero")
 });
+
+//OBS! fisierul mediu se face automat in functie de imaginile din galerie
+function initImagini(){
+    var continut= fs.readFileSync(path.join(__dirname,"resurse/json/galerie.json")).toString("utf-8");
+
+    obGlobal.obImagini=JSON.parse(continut);
+    let vImagini=obGlobal.obImagini.imagini;
+    let caleGalerie=obGlobal.obImagini.cale_galerie
+
+    let caleAbs=path.join(__dirname,caleGalerie);
+    let caleAbsMediu=path.join(caleAbs, "mediu");
+    if (!fs.existsSync(caleAbsMediu))
+        fs.mkdirSync(caleAbsMediu);
+    
+    for (let imag of vImagini){
+        [numeFis, ext]=imag.fisier.split("."); //"ceva.png" -> ["ceva", "png"]
+        let caleFisAbs=path.join(caleAbs,imag.fisier);
+        let caleFisMediuAbs=path.join(caleAbsMediu, numeFis+".webp");
+        sharp(caleFisAbs).resize(300).toFile(caleFisMediuAbs); // o sa ai de facut asta si pentru mobil, cu folder small
+        imag.fisier_mediu=path.join("/", caleGalerie, "mediu", numeFis+".webp" )
+        imag.fisier=path.join("/", caleGalerie, imag.fisier )
+        
+    }
+    // console.log(obGlobal.obImagini)
+}
+initImagini();
 
 app.get("/*pagina", function (req, res) {
 
