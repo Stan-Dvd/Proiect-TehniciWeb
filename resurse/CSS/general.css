@@ -42,14 +42,15 @@ a[href^='http']:hover:after {
 
 main a {
     /* background: #59ADCF; */
-    background: radial-gradient(circle, rgba(89, 173, 207, 1) 0%, rgba(89, 173, 207, 1) 40%, rgba(237, 221, 83, 0) 80%, rgba(237, 221, 83, 0) 100%);
-    background-size: 0%;
+    background: radial-gradient(ellipse at center, rgb(162, 181, 188) 0%, rgba(89, 173, 207, 1) 40%, rgba(237, 221, 83, 0) 80%, rgba(237, 221, 83, 0) 100%);
+    background-size: 0% 0%;
+    background-repeat: no-repeat;
     background-position: center;
 }
 
 main a:hover {
-    background-size: 100%;    
-    transition: 0.5s linear;
+    background-size: 100% 100%;    
+    transition: 0.5s ease;
 }
 
 main a:active{
@@ -178,6 +179,7 @@ figure>img {
     /*block, dar pot fi mai multe pe linie */
     padding: 10px;
     text-align: center;
+    background-image: none;
     background-color: var(--col-1);
     border: 2px solid var(--col-5);
     color: black;

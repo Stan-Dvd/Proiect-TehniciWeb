@@ -4,6 +4,7 @@ const fs = require("fs");
 const sass = require("sass");
 const sharp= require("sharp");
 
+//parola BD: SQLpa55
 
 app = express();
 app.set("view engine", "ejs")
