@@ -1,0 +1,44 @@
+/* Container pentru a menține textul și reflexia împreună */
+.container-reflexie {
+    position: relative;
+    display: inline-block;
+    font-size: 50px;
+    line-height: 50px;
+    font-weight: bold;
+}
+
+.text-principal {
+    position: relative;
+    z-index: 2;
+    color: black; /* Sau culoarea dorită */
+}
+
+.text-reflexie {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    z-index: 1;
+    
+    /* Punctul de plecare al reflexiei */
+    transform-origin: 0 0;
+    
+    /* Starea inițială conform exemplului tău + blur */
+    transform: rotateX(180deg) skew(-30deg) scaleY(0.7) translate(10px, -40px);
+    opacity: 0.4;
+    filter: blur(2px); /* Reflexia este ușor blurată conform cerinței */
+    
+    /* Tranziție pentru alungire lină */
+    transition: all 1s ease-in-out;
+    
+    /* Împiedică selectarea textului din reflexie */
+    user-select: none;
+    pointer-events: none;
+}
+
+/* Efectul de alungire la hover */
+.container-reflexie:hover .text-reflexie {
+    /* Alungim reflexia prin mărirea scaleY și modificarea skew-ului sau translației */
+    transform: rotateX(180deg) skew(-35deg) scaleY(1) translate(15px, -35px);
+    opacity: 0.2; /* Devine mai transparentă pe măsură ce se alungește */
+    filter: blur(3px); /* Blur-ul crește odată cu distanța */
+}

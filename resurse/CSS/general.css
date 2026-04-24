@@ -6,9 +6,9 @@ body {
     --col-3: #A07856;
     --col-4: #6F4D38;
     --col-5: #3D211A;
-    /* col-5 */
+    --col-hr: #6F4D38;
 
-    --margine-pagina: 100px;
+    --margine-pagina: 150px;
     background-color: var(--col-1);
     --font_size: 18px;
 }
@@ -46,6 +46,34 @@ main a {
     background-size: 0% 0%;
     background-repeat: no-repeat;
     background-position: center;
+}
+
+/* hr{
+    background: radial-gradient(ellipse at center, rgba(89, 173, 207, 1) 0%, rgba(89, 173, 207, 1) 60%, 
+    rgba(237, 221, 83, 0) 60%, rgba(237, 221, 83, 0) 80%, rgba(89, 173, 207, 1) 80%, rgba(89, 173, 207, 1) 100%);
+} */
+
+hr.hr-gradient{
+    /* Eliminăm bordura implicită */
+    border: none;
+    height: 15px; /* Grosimea benzii din imagine */
+    margin: 40px 0;
+    
+    /* Folosim un gradient la 120 de grade pentru tăieturi oblice.
+       Structura este: Culoare -> Transparent -> Culoare -> Transparent -> Culoare
+       Pentru a avea culoare continuă, repetăm aceeași culoare la procente diferite.
+    */
+    background: linear-gradient(-120deg, 
+        var(--col-hr) 0%, var(--col-hr) 15%,      /* Prima bandă continuă */
+        transparent 15%, transparent 20%, /* Prima întrerupere oblică */
+        var(--col-hr) 20%, var(--col-hr) 80%,      /* Banda centrală lungă */
+        transparent 80%, transparent 85%, /* A doua întrerupere oblică */
+        var(--col-hr) 85%, var(--col-hr) 100%      /* Ultima bandă continuă */
+    );
+    
+    /* Ne asigurăm că gradientul se vede pe toată lățimea */
+    width: 100%;
+    opacity: 1;
 }
 
 main a:hover {
@@ -333,6 +361,8 @@ figure>img {
 }
 
 footer {
+    margin-left: var(--margine-pagina);
+    margin-right: var(--margine-pagina);
     background-color: var(--col-2);
 }
 

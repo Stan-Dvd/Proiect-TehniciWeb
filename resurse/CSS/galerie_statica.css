@@ -1,0 +1,97 @@
+#grid-galerie {
+    display: grid;
+    /* Definim 4 coloane egale */
+    grid-template-columns: repeat(4, 1fr); 
+    /* Definim 3 rânduri (înălțime automată) */
+    grid-template-rows: repeat(3, auto);
+    grid-gap: 20px;
+    
+    /* Definirea zonelor: punctul (.) lasă celula goală */
+    grid-template-areas: 
+        "p1 p2 p3 p4"
+        "p5  .  .  p6"
+        "p7 p8 p9 p10";
+}
+
+/* Trebuie să mapăm fiecare figură pe o zonă definită mai sus */
+#grid-galerie figure:nth-child(1) { grid-area: p1; }
+#grid-galerie figure:nth-child(2) { grid-area: p2; }
+#grid-galerie figure:nth-child(3) { grid-area: p3; }
+#grid-galerie figure:nth-child(4) { grid-area: p4; }
+#grid-galerie figure:nth-child(5) { grid-area: p5; }
+#grid-galerie figure:nth-child(6) { grid-area: p6; }
+#grid-galerie figure:nth-child(7) { grid-area: p7; }
+#grid-galerie figure:nth-child(8) { grid-area: p8; }
+#grid-galerie figure:nth-child(9) { grid-area: p9; }
+#grid-galerie figure:nth-child(10) { grid-area: p10; }
+
+/* --- Responsive --- */
+
+/* Ecran Mediu (2 coloane) - Resetăm template-ul */
+@media screen and (max-width: 1000px) and (min-width: 601px) {
+    #grid-galerie {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-areas: none; /* Resetăm harta de desktop */
+    }
+    
+    #grid-galerie figure {
+        grid-area: auto !important; /* Forțăm elementele să curgă normal, unul după altul */
+    }
+}
+
+/* --- ECRAN MIC (Mobil - o coloană) --- */
+@media screen and (max-width: 600px) {
+    #grid-galerie {
+        grid-template-columns: 1fr;
+        grid-template-areas: none;
+    }
+    
+    #grid-galerie figure {
+        grid-area: auto !important;
+    }
+}
+
+#grid-galerie img {
+    width: 100%; 
+    height: auto; 
+    display: block; 
+    max-width: 100%; 
+    transition: all 1.25s ease;
+}
+
+/* --- Tranziția cerută (1.25s) --- */
+#grid-galerie figure {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    /* Păstrează spațiul ocupat în grid constant */
+    height: 100%; 
+    /* Permite imaginii să iasă din cadru în sus fără a împinge vecinii */
+    overflow: visible; 
+    transition: z-index 0s;
+    transition: all 1.25s ease;
+}
+
+#grid-galerie figure:hover {
+    /* Aduce elementul în față pentru a nu fi acoperit de pozele de deasupra */
+    z-index: 100; 
+    /* transform-origin: bottom center; */
+    transform: translateY(-11.5%) scale(1.3);
+    
+}
+
+#grid-galerie figure:hover figcaption {
+    background-color: var(--col-5);
+    color: #fff;
+}
+
+
+#grid-galerie {
+    counter-reset: galerie-counter;
+}
+
+#grid-galerie figcaption::before {
+    counter-increment: galerie-counter;
+    content: counter(galerie-counter, lower-alpha) ") ";
+    font-weight: bold;
+}

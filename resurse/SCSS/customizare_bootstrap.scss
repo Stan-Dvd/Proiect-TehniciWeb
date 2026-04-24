@@ -1,5 +1,35 @@
 @use '../../node_modules/bootstrap/scss/bootstrap.scss' with 
 (
-    $primary: blue,
-    $secondary:purple,  
+
+    //culoare background
+    $primary: rgb(249, 203, 124),
+    $secondary:rgb(128, 70, 0),
+
+    // Culoare font
+    $body-color: #2b2b2b,
+
+    //Familia de font implicită
+    $font-family-sans-serif: ("Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif),
+
+    //dimensiuni heading
+    $h1-font-size: 3rem,
+    $h2-font-size: 2rem,
+
+    // Razele de border (border-radius)
+    $border-radius: 0.5rem,
+    $border-radius-lg: 1.2rem,
+
+    // Dimensiuni de ecran (Breakpoints)
+    $grid-breakpoints: (
+        xs: 0,
+        sm: 576px,
+        md: 700px, // Customizat de la 768px
+        lg: 1150px, // Customizat de la 992px
+        xl: 1200px,
+        xxl: 1400px
+    ),
+
+    // Variabilă extra (distanța dintre coloanele grid-ului)
+    $grid-gutter-width: 1.5rem
+
 );
