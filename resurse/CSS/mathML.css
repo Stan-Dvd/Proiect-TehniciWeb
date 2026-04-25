@@ -1,0 +1,37 @@
+math {
+    font-size: 1.2em;
+    padding: 10px;
+    text-align: center;
+    /* background-color: #fcfcfc; */
+}
+
+/* clasa separata*/
+.rezultat {
+    color: #1a73e8;
+    font-weight: bold;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+/* variabile */
+mi {
+    color: #2e7d32;
+    font-style: italic;
+}
+
+/* constante/numere */
+mn {
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+/* operatori */
+mo {
+    color: #555;
+    padding: 0 5px;
+}
+
+/* exponenti */
+msup > mn {
+    font-size: 0.8em;
+    color: #7b1fa2;
+}

@@ -8,8 +8,8 @@ body {
     --col-5: #3D211A;
     --col-hr: #6F4D38;
 
-    --margine-pagina: 150px;
-    background-color: var(--col-1);
+    --margine-pagina: 120px;
+    background-color: var(--col-4);
     --font_size: 18px;
 }
 
@@ -53,36 +53,48 @@ main a {
     rgba(237, 221, 83, 0) 60%, rgba(237, 221, 83, 0) 80%, rgba(89, 173, 207, 1) 80%, rgba(89, 173, 207, 1) 100%);
 } */
 
-hr.hr-gradient{
+hr.hr-gradient {
     /* Eliminăm bordura implicită */
     border: none;
-    height: 15px; /* Grosimea benzii din imagine */
+    height: 15px;
+    /* Grosimea benzii din imagine */
     margin: 40px 0;
-    
+
     /* Folosim un gradient la 120 de grade pentru tăieturi oblice.
        Structura este: Culoare -> Transparent -> Culoare -> Transparent -> Culoare
        Pentru a avea culoare continuă, repetăm aceeași culoare la procente diferite.
     */
-    background: linear-gradient(-120deg, 
-        var(--col-hr) 0%, var(--col-hr) 15%,      /* Prima bandă continuă */
-        transparent 15%, transparent 20%, /* Prima întrerupere oblică */
-        var(--col-hr) 20%, var(--col-hr) 80%,      /* Banda centrală lungă */
-        transparent 80%, transparent 85%, /* A doua întrerupere oblică */
-        var(--col-hr) 85%, var(--col-hr) 100%      /* Ultima bandă continuă */
-    );
-    
+    background: linear-gradient(-120deg,
+            var(--col-hr) 0%, var(--col-hr) 15%,
+            /* Prima bandă continuă */
+            transparent 15%, transparent 20%,
+            /* Prima întrerupere oblică */
+            var(--col-hr) 20%, var(--col-hr) 80%,
+            /* Banda centrală lungă */
+            transparent 80%, transparent 85%,
+            /* A doua întrerupere oblică */
+            var(--col-hr) 85%, var(--col-hr) 100%
+            /* Ultima bandă continuă */
+        );
+
     /* Ne asigurăm că gradientul se vede pe toată lățimea */
     width: 100%;
     opacity: 1;
 }
 
 main a:hover {
-    background-size: 100% 100%;    
+    background-size: 100% 100%;
     transition: 0.5s ease;
 }
 
-main a:active{
+main a:active {
     border: 2px black;
+}
+
+#map-image {
+    width: 500px;
+    height: auto;
+    display: block;
 }
 
 #title-text {
@@ -109,6 +121,7 @@ main a:active{
 
 #grid-pagina>* {
     /* selectam toti fiii de orice fel sub grid-pagina*/
+    background-color: var(--col-1);
     padding: 10px;
     box-shadow: 0px 0px 5px var(--col-5);
     border: 1px solid var(--col-5);

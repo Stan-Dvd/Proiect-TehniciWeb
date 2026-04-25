@@ -46,6 +46,104 @@ app.use("/dist", express.static(path.join(__dirname, "node_modules/dist")))
 //     res.end();
 // })
 
+//BONUS 4
+function validareErori() {
+    const caleFisier = path.join(__dirname, "resurse/json/erori.json");
+
+    // verificare existenta fisier
+    if (!fs.existsSync(caleFisier)) {
+        console.error("CRITICAL ERROR: Fisierul 'erori.json' nu exista la calea: " + caleFisier);
+        process.exit(1);
+    }
+
+    const rawData = fs.readFileSync(caleFisier, "utf8");
+
+    // verif duplicate
+    // căutăm orice cheie care apare de mai multe ori într-un obiect folosind Regex
+    const regexDuplicat = /"([^"]+)"\s*:/g;
+    let match;
+    let stack = []; // Pentru a urmări obiectele imbricate
+    
+    //verificăm duplicatele între fiecare set de acolade.
+    //(metoda specifica pt text brut, nu JSON)
+    const obiecteBrute = rawData.split('{');
+    for (let objText of obiecteBrute) {
+        let chei = [];
+        let matchCheie;
+        while ((matchCheie = regexDuplicat.exec(objText)) !== null) {
+            let cheie = matchCheie[1];
+            if (chei.includes(cheie)) {
+                console.warn(`EROARE JSON: Proprietatea "${cheie}" apare de mai multe ori intr-un obiect din fisierul brut.`);
+            }
+            chei.push(cheie);
+        }
+    }
+
+    // restul verificarilor
+
+    //eroare de sintaxa
+    let erori;
+    try {
+        erori = JSON.parse(rawData);
+    } catch (e) {
+        console.error("EROARE: JSON-ul are erori de sintaxa si nu poate fi parsat.");
+        return;
+    }
+
+    //proprietăți principale
+    const proprietatiPrincipale = ["info_erori", "cale_baza", "eroare_default"];
+    for (let prop of proprietatiPrincipale) {
+        if (!erori.hasOwnProperty(prop)) {
+            console.warn(`EROARE: Proprietatea principala "${prop}" lipseste din JSON.`);
+        }
+    }
+
+    // eroare_default
+    if (erori.eroare_default) {
+        const campuriDefault = ["titlu", "text", "imagine"];
+        for (let camp of campuriDefault) {
+            if (!erori.eroare_default[camp]) {
+                console.warn(`EROARE: Pentru 'eroare_default' lipseste proprietatea: ${camp}`);
+            }
+        }
+    }
+
+    // folder cale_baza
+    const caleBazaAbs = path.join(__dirname, erori.cale_baza || "");
+    if (!fs.existsSync(caleBazaAbs)) {
+        console.warn(`EROARE: Folderul specificat in 'cale_baza' nu exista: ${caleBazaAbs}`);
+    }
+
+    // duplicate identificator și existență imagini
+    if (Array.isArray(erori.info_erori)) {
+        let idsVazute = {};
+        
+        for (let i = 0; i < erori.info_erori.length; i++) {
+            let err = erori.info_erori[i];
+
+            // Verificare duplicate identificator
+            if (idsVazute[err.identificator]) {
+                const infoAlteProp = { ...err };
+                delete infoAlteProp.identificator;
+                console.warn(`EROARE: Identificatorul "${err.identificator}" este duplicat. Date eroare:`, infoAlteProp);
+            }
+            idsVazute[err.identificator] = true;
+
+            // Verificare existență imagini asociate
+            if (err.imagine) {
+                const caleImagine = path.join(caleBazaAbs, err.imagine);
+                if (!fs.existsSync(caleImagine)) {
+                    console.warn(`EROARE: Imaginea pentru eroarea ${err.identificator} nu a fost gasita la: ${caleImagine}`);
+                }
+            }
+        }
+    }
+}
+
+// Apelare la pornire
+validareErori();
+
+
 function initErori() {
     let continut = fs.readFileSync(path.join(__dirname, "resurse/json/erori.json")).toString("utf-8");
     let erori = obGlobal.obErori = JSON.parse(continut) //transforma fisierul JSON intr-un obiect
@@ -132,7 +230,7 @@ function initImagini() {
     let caleAbs = path.join(__dirname, caleGalerie);
     let caleAbsMediu = path.join(caleAbs, "mediu");
     const caleAbsMic = path.join(caleAbs, "mic");
-    
+
     //creare fisiere daca nu exista
     if (!fs.existsSync(caleAbsMediu)) fs.mkdirSync(caleAbsMediu);
     if (!fs.existsSync(caleAbsMic)) fs.mkdirSync(caleAbsMic);
@@ -150,7 +248,7 @@ function initImagini() {
     //punem imaginile de afisat intr-un alt obiect
     let imaginiRezultat = [];
     for (let img of vImagini) {
-        
+
         // extragere interval orar (ex: "09:00-12:00")
         let interval = img.timp.split("-");
         let oraStart = interval[0];
@@ -158,7 +256,7 @@ function initImagini() {
 
         // verificare criteriu timp și limită de 10 imagini
         if (oraCurenta >= oraStart && oraCurenta <= oraSfarsit && imaginiRezultat.length < 10) {
-            
+
             let numeFisierComplet = img.cale_imagine;
             let numeFisierFaraExt = path.parse(numeFisierComplet).name;
             let extensieNoua = ".webp";

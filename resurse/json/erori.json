@@ -14,6 +14,13 @@
             "imagine":"lupa.png"
         },
         {
+            "identificator":404,
+            "status":true,
+            "titlu":"404",
+            "text": "Not found",
+            "imagine":"lupa.png"
+        },
+        {
             "identificator":403,
             "status":true,
             "titlu":"403 - Forbidden",
