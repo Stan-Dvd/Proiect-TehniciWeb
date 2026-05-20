@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta name="description"
+        content="Camera Obscura ofera o varietate de echipamente fotografice, in special camere si obiective, cu optiunea de achizitie online si livrare prin curier.">
+    <meta name="keywords"
+        content="magazin, camera, camera foto, aparat foto, aparat mirrorless, dSLR, mirrorless, fotografie, obiectiv, obiective, Canon, Nikon, Sony, Fujifilm">
+    <link rel="stylesheet" href="/resurse/css/produse.css" type="text/css" />
+    <title>Camera Obscura - Produse</title>
+    <%- include("../fragmente/head") %>
+        <script type="text/javascript" src=/resurse/js/produse.js></script>
+        <!-- <script type="text/javascript" src=/resurse/js/produse-cos.js></script> -->
+
+</head>
+
+<body>
+
+
+    <%- include("../fragmente/header") %>
+
+        <main>
+            <div id="filtre-container" class="p-4 border mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4>Filtrare Avansată Camere</h4>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="inp-nume" class="form-label fw-bold">Căutare după Nume:</label>
+                        <input type="text" id="inp-nume" class="form-control"
+                            placeholder="Introduceți numele camerei...">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="inp-categorie" class="form-label fw-bold">Categorie / Tip Cameră:</label>
+                        <select id="inp-categorie" class="form-select">
+                            <option value="toate" selected>Toate categoriile</option>
+                            <% for (let opt of locals.optiuni) { %>
+                                <option value="<%- opt.unnest %>"><%- opt.unnest %> </option>
+                                <% } %>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="inp-rezolutie" class="form-label fw-bold">Rezoluție minimă:</label>
+                        <div class="d-flex align-items-center gap-2">
+                            <span>2 Mpx</span>
+                            <input type="range" id="inp-rezolutie" value="2" min="2" max="100"
+                                class="form-range flex-grow-1">
+                            <span>100 Mpx <strong id="infoRezolutie">(12 Mpx)</strong></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="inp-brand" class="form-label fw-bold">Brand Cameră:</label>
+                        <input list="lista-branduri" id="inp-brand" class="form-control"
+                            placeholder="Scrie sau alege un brand...">
+                        <datalist id="lista-branduri">
+                            <option value="Canon">
+                            <option value="Nikon">
+                            <option value="Sony">
+                            <option value="Fujifilm">
+                            <option value="Olympus">
+                            <option value="Leica">
+                            <option value="Lumix">
+                            <option value="Sigma">
+                        </datalist>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label d-block fw-bold">Tip Senzor:</label>
+                        <div class="btn-group flex-wrap" role="group" aria-label="Alegere senzor">
+                            <input type="radio" class="btn-check" name="gr_senzor" id="senzor_toate" value="toate"
+                                checked autocomplete="off">
+                            <label class="btn btn-outline-secondary" for="senzor_toate">Oricare</label>
+
+                            <input type="radio" class="btn-check" name="gr_senzor" id="senzor_aps_c" value="aps-c"
+                                autocomplete="off">
+                            <label class="btn btn-outline-secondary" for="senzor_aps_c">APS-C</label>
+
+                            <input type="radio" class="btn-check" name="gr_senzor" id="senzor_full_frame"
+                                value="full frame" autocomplete="off">
+                            <label class="btn btn-outline-secondary" for="senzor_full_frame">Full Frame</label>
+
+                            <input type="radio" class="btn-check" name="gr_senzor" id="senzor_medium_format"
+                                value="medium-format" autocomplete="off">
+                            <label class="btn btn-outline-secondary" for="senzor_medium_format">Medium Format</label>
+
+                            <input type="radio" class="btn-check" name="gr_senzor" id="senzor_mft" value="mft"
+                                autocomplete="off">
+                            <label class="btn btn-outline-secondary" for="senzor_mft">MFT</label>
+
+                            <input type="radio" class="btn-check" name="gr_senzor" id="senzor_1inch" value="1-inch"
+                                autocomplete="off">
+                            <label class="btn btn-outline-secondary" for="senzor_1inch">1-inch</label>
+
+                            <input type="radio" class="btn-check" name="gr_senzor" id="senzor_2/3" value="2/3"
+                                autocomplete="off">
+                            <label class="btn btn-outline-secondary" for="senzor_2/3">2/3</label>
+
+                            <input type="radio" class="btn-check" name="gr_senzor" id="senzor_1/2.3" value="1/2.3"
+                                autocomplete="off">
+                            <label class="btn btn-outline-secondary" for="senzor_1/2.3">1/2.3</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 d-flex align-items-start">
+                        <input type="checkbox" class="btn-check" id="inp-ibis" value="true" autocomplete="off">
+                        <label class="btn btn-outline-secondary w-100" for="inp-ibis">
+                            <i class="fa-solid fa-hand"></i> Doar camerele cu Stabilizare Corp (IBIS)
+                        </label>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-floating text-dark">
+                            <textarea id="inp-cuvinte" class="form-control" placeholder="Exemplu: +4k +vlog -secondhand"
+                                style="height: 100px"></textarea>
+                            <label for="inp-cuvinte">Cuvinte cheie (descriere)</label>
+                        </div>
+                        <div class="form-text">Folosiți + înaintea cuvintelor obligatorii și - pentru cele interzise.
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="inp-intervale-pret" class="form-label fw-bold">Intervale de preț (Selecție
+                            multiplă):</label>
+                        <select id="inp-intervale-pret" class="form-select" multiple size="4">
+                            <option value="0-3000">0 - 3.000 RON</option>
+                            <option value="3000-7000">3.000 - 7.000 RON</option>
+                            <option value="7000-15000">7.000 - 15.000 RON</option>
+                            <option value="15000-100000">Peste 15.000 RON</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mt-3 text-center">
+                    <button id="filtrare" class="btn btn-primary px-4 me-2">
+                        <i class="fa-solid fa-filter"></i> <span class="d-none d-sm-inline">Filtrează</span>
+                    </button>
+                    <button id="resetare" class="btn btn-secondary px-4">
+                        <i class="fa-solid fa-rotate-left"></i> <span class="d-none d-sm-inline">Resetează</span>
+                    </button>
+
+                    <button id="sortCrescNume" class="btn btn-primary px-4">
+                        <i class="fa-solid fa-sort-amount-down-alt"></i> <span class="d-none d-sm-inline">Sortare
+                            Crescător Preț</span>
+                    </button>
+                    <button id="sortDescrescNume" class="btn btn-primary px-4">
+                        <i class="fa-solid fa-sort-amount-up"></i> <span class="d-none d-sm-inline">Sortare Descrescător
+                            Preț</span>
+                    </button>
+
+                    <button id="calculaSuma" class="btn btn-secondary px-4">
+                        <i class="fa-solid fa-calculator"></i> <span class="d-none d-sm-inline">Calculează Suma</span>
+                    </button>
+                </div>
+            </div>
+
+            <section id="produse">
+                <h2>Produse</h2>
+                <div class="grid-produse">
+                    <% for(let prod of locals.produse) { %>
+                        <article id="articol_<%- prod.id %>" class="produs <%- prod.tip_cam %>">
+                            <hgroup>
+                                <h3><a href="/produs/<%- prod.id %>"><span class="val-nume"><%- prod.nume %></span></a>
+                                </h3>
+                                <p class="subtitlu val-categorie">Camera <%- prod.tip_cam %></p>
+                            </hgroup>
+
+                            <div class="desc-img">
+                                <p class="descriere val-descriere"><%- prod.descriere %></p>
+                                <figure>
+                                    <a href="/produs/<%- prod.id %>">
+                                        <img src="/resurse/imagini/produse/<%- prod.imagine %>"
+                                            alt="[imagine <%- prod.nume %>]" />
+                                    </a>
+                                </figure>
+                            </div>
+
+                            <ul class="info-prod">
+                                <li>Preț: <span class="val-pret"><%- prod.pret %></span> RON</li>
+                                <li>Brand: <span class="val-brand"><%- prod.brand %></span></li>
+                                <li>Rezoluție: <span class="val-rezolutie"><%- prod.rezolutie %></span> Mpx</li>
+                                <li>Senzor: <span class="val-senzor"><%- prod.marime_senzor %></span></li>
+                                <li>Stabilizare (IBIS): <span class="val-ibis"><%- prod.ibis %></span></li>
+                                <li>Conectivitate: <span class="val-conectivitate"><%- prod.conectivitate %></span></li>
+                                <li class="data_lansare">Data lansare:
+                                    <time class="val-data_lansare" datetime="<%- prod.data_iso %>"><%- prod.data_romana
+                                            %></time>
+                                </li>
+
+                            </ul>
+
+                            <label class="selecteaza-cos">
+                                Selectează: <br />
+                                <input type="checkbox" class="select-cos" value="<%- prod.id %>" autocomplete="off">
+                            </label>
+                        </article>
+                        <% } %>
+                </div>
+            </section>
+        </main>
+
+        <%- include("../fragmente/footer") %>
+</body>
+
+</html>

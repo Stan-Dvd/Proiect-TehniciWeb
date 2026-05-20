@@ -11,6 +11,19 @@
     //Familia de font implicită
     $font-family-sans-serif: ("Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif),
 
+    // [ADAUGAT] Customizări pentru Butoane (Rază și Grosime Border)
+    $btn-border-width: 2px, // Grosimea dorită de tine
+    $btn-border-radius: 0.5rem,
+
+    // [ADAUGAT] Customizare Slider Range (Bulina cu 50% mai mare decât font-size-ul implicit de 1rem)
+    $form-range-thumb-width: 1.5rem,  // 1rem * 1.5 = 1.5rem (cu 50% mai mare)
+    $form-range-thumb-height: 1.5rem,
+    $form-range-thumb-bg: rgb(128, 70, 0), // Culoarea bulinei (secondary)
+    $form-range-thumb-active-bg: rgb(249, 203, 124),
+    $form-range-track-bg: #e9ecef, // Culoarea bazei sliderului
+
+    $border-width: 0px,
+
     //dimensiuni heading
     $h1-font-size: 3rem,
     $h2-font-size: 2rem,

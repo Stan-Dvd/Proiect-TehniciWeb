@@ -3,3 +3,7 @@ img{
     height: 10%;
     margin: 40px;
 }
+#err-coloane{
+    margin-top: 10px;
+    background-color: var(--col-2);
+}

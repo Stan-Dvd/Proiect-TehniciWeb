@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta name="description"
+        content="Camera Obscura ofera o varietate de echipamente fotografice, in special camere si obiective, cu optiunea de achizitie online si livrare prin curier.">
+    <meta name="keywords"
+        content="magazin, camera, camera foto, aparat foto, aparat mirrorless, dSLR, mirrorless, fotografie, obiectiv, obiective, Canon, Nikon, Sony, Fujifilm">
+
+    <title>Cofetăria Dulcelind - <%- locals.prod.nume %></title>
+    <%- include("../fragmente/head") %>
+        <link href="/resurse/css/produs.css" type="text/css" rel="stylesheet" />
+</head>
+
+<%- include("../fragmente/header") %>
+    <main>
+        <section>
+            <h2>Pagină produs</h2>
+            <article id="art-produs">
+                <h3>Model: <span class="nume"><%- locals.prod.nume %></span></h3>
+
+                <p>Preț: <span class="pret"><%- locals.prod.pret %></span> RON</p>
+                <p>Descriere: <span class="descriere"><%- locals.prod.descriere %></span></p>
+                <p>Brand: <span class="brand"><%- locals.prod.brand %></span></p>
+                <p>Tip cameră: <span class="tip_cam"><%- locals.prod.tip_cam %></span></p>
+                <p>Dimensiune senzor: <span class="marime_senzor"><%- locals.prod.marime_senzor %></span></p>
+                <p>Rezoluție: <span class="rezolutie"><%- locals.prod.rezolutie %> Mpx</span></p>
+
+                <p>Conectivitate / Porturi: <span class="conectivitate"><%- locals.prod.conectivitate %></span></p>
+
+                <p>Stabilizare imagine integrată (IBIS): <span class="ibis"><%- locals.prod.ibis %></span>
+                </p>
+                
+                <p class="data_lansare">Data lansare:
+                    <time class="val-data_lansare" datetime="<%- prod.data_iso %>"><%- prod.data_romana %></time>
+                </p>
+
+                <figure class="imag-produs">
+                    <img src="/resurse/imagini/produse/<%- locals.prod.imagine %>"
+                        alt="[imagine <%- locals.prod.nume %>]" />
+                </figure>
+            </article>
+
+        </section>
+    </main>
+
+    <%- include("../fragmente/footer") %>
+        </body>
+
+</html>

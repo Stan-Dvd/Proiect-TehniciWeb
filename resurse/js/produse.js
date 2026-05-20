@@ -1,0 +1,282 @@
+window.onload = function () {
+
+    //TODO: verificare inputuri, foloseste "expresii regulate", vezi site-ul regex101.com
+    //cica o sa ai 3 inputuri de verificat
+    //o sa trebuiasca sa explici expresii regulate, vezi ppt javascript, slide ~ 85
+    //nu trb sa ai expresii regulate complexe, daca ai doar sa fie toate litere e ok
+
+    //schimbarea temei nu e predata, restul la munca
+
+
+    document.getElementById("inp-rezolutie").oninput = function () {
+        let val = this.value.trim();
+        document.getElementById("infoRezolutie").innerHTML = `(${val} Mpx)`;
+    };
+
+    function validareInput() {
+        let inpNume = document.getElementById("inp-nume").value.trim();
+        let inpBrand = document.getElementById("inp-brand").value.trim();
+        let inpCuvinte = document.getElementById("inp-cuvinte").value.trim();
+
+        // nume: doar litere, numere, spații și cratime
+        if (inpNume !== "") {
+            //OBS! + inseamna ca trb sa aiba cel putin un caracter valid
+            let regexNume = /^[a-zA-Z0-9\s-]+$/;
+            if (!regexNume.test(inpNume)) {
+                alert("Eroare Validare Nume: Câmpul poate conține doar litere, numere, spații și cratime ('-').");
+                return false;
+            }
+        }
+
+        // brand: un singur cuvânt, doar litere
+        if (inpBrand !== "") {
+            let regexBrand = /^[a-zA-Z]+$/;
+            if (!regexBrand.test(inpBrand)) {
+                alert("Eroare Validare Brand: Câmpul trebuie să conțină un singur cuvânt format exclusiv din litere.");
+                return false;
+            }
+        }
+
+        // cuvinte cheie: grupuri care încep obligatoriu cu + sau - urmate de litere/numere/cratime
+        if (inpCuvinte !== "") {
+            let tokenuri = inpCuvinte.split(/\s+/); //delimitare folosind expresie regulata - unul sau > spatii
+            let regexCuvantCheie = /^[+-][a-zA-Z0-9-]+$/;
+
+            for (let token of tokenuri) {
+                if (!regexCuvantCheie.test(token)) {
+                    alert("Eroare Validare Cuvinte Cheie: Fiecare cuvânt trebuie să înceapă cu '+' sau '-' și să conțină doar litere, numere și cratime (ex: +4k -second-hand).");
+
+                    // adăug clasa de eroare cerută de Bootstrap pentru floating label
+                    document.getElementById("inp-cuvinte").classList.add("is-invalid");
+                    return false;
+                }
+            }
+        }
+
+        // dacă totul este în regulă, curățăm clasa de eroare dacă exista
+        document.getElementById("inp-cuvinte").classList.remove("is-invalid");
+        return true;
+    }
+
+    function filtrare() {
+        // preluare valori
+        let inpNume = document.getElementById("inp-nume").value.trim().toLowerCase();
+        let inpCategorie = document.getElementById("inp-categorie").value.trim().toLowerCase();
+        let rezolutieMin = parseInt(document.getElementById("inp-rezolutie").value);
+        let brandSelectat = document.getElementById("inp-brand").value.trim().toLowerCase();
+
+        // preluare val radio
+        let radioSenzor = document.getElementsByName("gr_senzor");
+        let senzorSelectat = "toate";
+        for (let r of radioSenzor) {
+            if (r.checked) {
+                senzorSelectat = r.value;
+                break;
+            }
+        }
+
+        // IBIS
+        let ibisDoarActive = document.getElementById("inp-ibis").checked;
+
+        // textarea
+        let textCuvinte = document.getElementById("inp-cuvinte").value.trim();
+        let cuvintePlus = [];
+        let cuvinteMinus = [];
+
+        if (textCuvinte.length > 0) {
+            // impartim textul in spatii
+            let tokenuri = textCuvinte.split(/\s+/);
+            for (let token of tokenuri) {
+                if (token.startsWith("+") && token.length > 1) {
+                    cuvintePlus.push(token.substring(1).toLowerCase());
+                } else if (token.startsWith("-") && token.length > 1) {
+                    cuvinteMinus.push(token.substring(1).toLowerCase());
+                }
+            }
+        }
+
+        // preluare intervale din Select-ul Multiplu
+        let selectMultiplu = document.getElementById("inp-intervale-pret");
+        let intervaleSelectate = [];
+        for (let opt of selectMultiplu.options) {
+            if (opt.selected) {
+                let parti = opt.value.split("-");
+                intervaleSelectate.push({
+                    min: parseFloat(parti[0]),
+                    max: parseFloat(parti[1])
+                });
+            }
+        }
+
+
+        // parcurgerea produselor din DOM
+        let produse = document.getElementsByClassName("produs");
+
+        for (let prod of produse) {
+            // colectare specificatii produs
+            let numeProd = prod.getElementsByClassName("val-nume")[0].textContent.trim().toLowerCase();
+            let categorieProd = prod.getElementsByClassName("val-categorie")[0].textContent.trim().toLowerCase();
+            let rezolutieProd = parseInt(prod.getElementsByClassName("val-rezolutie")[0].textContent.trim());
+            let brandProd = prod.getElementsByClassName("val-brand")[0].textContent.trim().toLowerCase();
+            let senzorProd = prod.getElementsByClassName("val-senzor")[0].textContent.trim().toLowerCase();
+            let ibisProdTxt = prod.getElementsByClassName("val-ibis")[0].textContent.trim().toLowerCase();
+            let descriereProd = prod.getElementsByClassName("val-descriere")[0].textContent.trim().toLowerCase();
+            let pretProd = parseFloat(prod.getElementsByClassName("val-pret")[0].textContent.trim());
+
+            //nume
+            let condNume = numeProd.includes(inpNume);
+
+            //categorie
+            let condCategorie = (inpCategorie === "toate") || categorieProd.includes(inpCategorie);
+
+            // rezoluție minimă
+            let condRezolutie = rezolutieProd >= rezolutieMin;
+
+            // brand (Datalist)
+            let condBrand = (brandSelectat === "") || (brandProd === brandSelectat);
+
+            // tip Senzor (Radio)
+            let condSenzor = (senzorSelectat === "toate") || (senzorProd === senzorSelectat);
+
+            // IBIS (Checkbox)
+            let condIbis = true;
+            if (ibisDoarActive) {
+                condIbis = (ibisProdTxt === "true" || ibisProdTxt === "da" || ibisProdTxt === "yes");
+            }
+
+            // textarea
+            let condTextarea = true;
+            if (cuvintePlus.length > 0) { // cuvinte plus
+                let areMultePlus = cuvintePlus.some(cuvant => descriereProd.includes(cuvant));
+                if (!areMultePlus) condTextarea = false;
+            }
+            if (cuvinteMinus.length > 0) { // cuvinte minus
+                let areInterziseMinus = cuvinteMinus.some(cuvant => descriereProd.includes(cuvant));
+                if (areInterziseMinus) condTextarea = false;
+            }
+
+            // select multiplu preturi
+            let condPretInterval = true;
+            if (intervaleSelectate.length > 0) {
+                condPretInterval = intervaleSelectate.some(interv => pretProd >= interv.min && pretProd <= interv.max);
+            }
+
+            // filtrare efecitva
+            if (condNume && condCategorie && condRezolutie && condBrand && condSenzor && condIbis && condTextarea && condPretInterval) {
+                prod.style.display = "block";
+            } else {
+                prod.style.display = "none";
+            }
+        }
+    };
+
+    document.getElementById("filtrare").onclick = function () { if (!validareInput()) return; filtrare() }
+
+
+    document.getElementById("resetare").onclick = function () {
+        if (confirm("Doriți să resetați toate filtrele aplicate?")) {
+            // Resetare filtre reintroduse
+            document.getElementById("inp-nume").value = "";
+            document.getElementById("inp-categorie").value = "toate";
+
+            // Resetare celelalte controale
+            document.getElementById("inp-rezolutie").value = 12;
+            document.getElementById("infoRezolutie").innerHTML = "(12 Mpx)";
+            document.getElementById("inp-brand").value = "";
+            document.getElementById("senzor_toate").checked = true;
+            document.getElementById("inp-ibis").checked = false;
+            document.getElementById("inp-cuvinte").value = "";
+
+            let selectMultiplu = document.getElementById("inp-intervale-pret");
+            for (let opt of selectMultiplu.options) {
+                opt.selected = false;
+            }
+
+            // Reafișarea tuturor produselor
+            letGrid = document.getElementsByClassName("produs");
+            for (let prod of letGrid) {
+                prod.style.display = "block";
+            }
+        }
+    };
+
+
+
+    function sortare(semn) {
+        let produse = document.getElementsByClassName("produs");
+        let vProduse = Array.from(produse);
+
+        // console.log(vProduse);
+        vProduse.sort(function (a, b) {
+            //a, b sunt taguri <article>, trb sa definim o functie de sortare
+            let pretA = parseFloat(a.getElementsByClassName("val-pret")[0].innerHTML.trim()); // trim taie spatiile din cuvant
+            let pretB = parseFloat(b.getElementsByClassName("val-pret")[0].innerHTML.trim());
+            if (pretA == pretB) {
+                let numeA = a.getElementsByClassName("val-nume")[0].innerHTML.trim()
+                let numeB = b.getElementsByClassName("val-nume")[0].innerHTML.trim()
+                return semn * numeA.localeCompare(numeB); // local compare compara stringurile in functie de limba setata
+            }
+            return (pretA - pretB) * semn
+        })
+        for (let prod of vProduse) {
+            prod.parentElement.appendChild(prod)
+            // muta fiecare produs din vector la finalul containerului
+            //asta practic face sortarea sa se afiseze pe pagina
+        }
+    }
+
+    document.getElementById("sortCrescNume").onclick = function () { if (!validareInput()) return; filtrare(); sortare(1) };
+    document.getElementById("sortDescrescNume").onclick = function () { if (!validareInput()) return; sortare(-1) };
+
+    document.getElementById("calculaSuma").onclick = function () {
+        if (!validareInput()) return;
+        filtrare();
+        // console.log(e)
+        let produse = document.getElementsByClassName("produs")
+        let suma = 0
+        for (let prod of produse) {
+            if (prod.style.display != "none") { // ca sa nu o calculam degeaba
+                let pret = parseFloat(prod.getElementsByClassName("val-pret")[0].innerHTML.trim())
+                suma += pret;
+            }
+        }
+
+        let p = document.getElementById("infoSuma");
+        if (!p) { // ca sa nu apara de fiecare data cand apas alt-c
+            p = document.createElement("p") // <p>
+            p.innerHTML = "Suma totala pt produsele afisate: " + suma;
+            p.id = "infoSuma"
+            p.className = "fw-bold mt-3 text-center text-dark";
+            let sectiuneProduse = document.getElementById("produse")
+            sectiuneProduse.parentElement.insertBefore(p, sectiuneProduse)
+
+            setTimeout(function () {
+                let p1 = document.getElementById("infoSuma")
+                if (p1) {
+                    p1.remove()
+                }
+            }, 2000) //dispare automat dupa 2000ms = 2s
+        }
+        else //daca exista deja, ii dau update
+            p.innerHTML = "Suma totala pt produsele afisate: " + suma;
+
+    }
+
+    //aplicare filtru din req parameter
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const tipParam = urlParams.get('tip');
+
+    if (tipParam) {
+        let selectCategorie = document.getElementById("inp-categorie");
+        if (selectCategorie) {
+            //seteaza valoarea din select
+            selectCategorie.value = opt.value;
+            // da automat click pe butonul de filtrare
+            let butonFiltrare = document.getElementById("filtrare");
+            if (butonFiltrare) {
+                butonFiltrare.click();
+            }
+        }
+    }
+}

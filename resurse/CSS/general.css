@@ -7,10 +7,23 @@ body {
     --col-4: #6F4D38;
     --col-5: #3D211A;
     --col-hr: #6F4D38;
-
-    --margine-pagina: 120px;
-    background-color: var(--col-4);
+    --col-link: blue;
     --font_size: 18px;
+    --text-col: black;
+    --margine-pagina: 120px;
+
+    background-color: var(--col-4);
+    color: var(--text-col)
+
+}
+
+body.dark{
+    --text-col: white;
+    --col-1: #3D211A;
+    --col-2: #6F4D38;
+    --col-4: #CBB799;
+    --col-5: #E6E0D1;
+    --col-hr: var(--col-4)
 }
 
 html {
@@ -21,10 +34,11 @@ html {
 main {
     margin-left: var(--margine-pagina);
     margin-right: var(--margine-pagina);
+    background-color: var(--col-1);
 }
 
 a {
-    color: blue;
+    color: var(--col-link);
 }
 
 a:visited {
@@ -48,11 +62,7 @@ main a {
     background-position: center;
 }
 
-/* hr{
-    background: radial-gradient(ellipse at center, rgba(89, 173, 207, 1) 0%, rgba(89, 173, 207, 1) 60%, 
-    rgba(237, 221, 83, 0) 60%, rgba(237, 221, 83, 0) 80%, rgba(89, 173, 207, 1) 80%, rgba(89, 173, 207, 1) 100%);
-} */
-
+/* 5 */
 hr.hr-gradient {
     /* Eliminăm bordura implicită */
     border: none;
@@ -60,10 +70,7 @@ hr.hr-gradient {
     /* Grosimea benzii din imagine */
     margin: 40px 0;
 
-    /* Folosim un gradient la 120 de grade pentru tăieturi oblice.
-       Structura este: Culoare -> Transparent -> Culoare -> Transparent -> Culoare
-       Pentru a avea culoare continuă, repetăm aceeași culoare la procente diferite.
-    */
+    /* Folosim un gradient la 120 de grade pentru tăieturi oblice. */
     background: linear-gradient(-120deg,
             var(--col-hr) 0%, var(--col-hr) 15%,
             /* Prima bandă continuă */
@@ -89,6 +96,10 @@ main a:hover {
 
 main a:active {
     border: 2px black;
+}
+
+#t{
+    color: var(--col-1);
 }
 
 #map-image {
@@ -123,7 +134,7 @@ main a:active {
     /* selectam toti fiii de orice fel sub grid-pagina*/
     background-color: var(--col-1);
     padding: 10px;
-    box-shadow: 0px 0px 5px var(--col-5);
+    /* box-shadow: 0px 0px 5px var(--col-5); */
     border: 1px solid var(--col-5);
 }
 

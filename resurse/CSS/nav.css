@@ -5,6 +5,10 @@ nav {
   --anim-dur: .5s;
   --anim-type: ease-in-out;
   --button-opacity: 0.4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 20px;
 }
 
 #hamburger,
@@ -20,7 +24,8 @@ nav {
   /* ca sa apara iconitele in linie cu textul */
 }
 
-ul.meniu ul, ul.meniu {
+ul.meniu ul,
+ul.meniu {
   list-style-type: none;
   /* ascunde bullet-uri */
   padding: 0;
@@ -31,11 +36,13 @@ ul.meniu {
   display: flex;
   position: relative;
 }
+
 ul.meniu ul {
   display: none;
   z-index: 10;
   /* il plaseaza -in fata- celorlalte elemente de pe pagina (care by default au z-index: 0 */
 }
+
 ul.meniu li {
   position: relative;
   font-weight: bold;
@@ -57,6 +64,7 @@ ul.meniu li {
   /* margin-right: 10px; */
   transition: all 0.5s ease-in-out;
 }
+
 ul.meniu li a {
   color: black;
   text-decoration: none;
@@ -66,7 +74,8 @@ ul.meniu li a {
   height: 100%;
   display: block;
 }
-ul.meniu > li::after {
+
+ul.meniu>li::after {
   content: "";
   /* Set the element as full-size */
   position: absolute;
@@ -80,13 +89,15 @@ ul.meniu > li::after {
   transition: all 0.5s ease 0s;
   z-index: 0;
 }
-ul.meniu > li:hover::after {
+
+ul.meniu>li:hover::after {
   /* Show the overlay on hover */
   opacity: var(--button-opacity);
   transform-origin: center;
   animation: animatie_buton var(--anim-dur) var(--anim-type);
 }
-ul.meniu li:hover > ul {
+
+ul.meniu li:hover>ul {
   /* e >ul deci afiseaza doar submeniul direct */
   display: block;
   position: absolute;
@@ -95,12 +106,25 @@ ul.meniu li:hover > ul {
   transform-origin: top left;
   /* schimbam originea ca sa incepe sa dea fade-in direct de sub buton, nu de undeva de mai jos */
 }
+
 ul.meniu li:hover a {
   color: black;
 }
+
 ul.meniu li:hover ul a:hover {
   color: white;
   background-color: var(--col-5);
+  cursor: pointer;
+}
+
+/* Stilul aplicat noului container separat din dreapta */
+.switch-tema-container {
+  display: flex;
+  align-items: center;
+  height: var(--inaltime-buton);
+}
+
+#schimba_tema {
   cursor: pointer;
 }
 
@@ -108,21 +132,25 @@ ul.meniu li:hover ul a:hover {
 Transition interpoleaza intre 2 valori, dar display:none/block e doar un bool, nu are valori intre ele
 Deci trebuie sa definim o animatie */
 @keyframes animatie_submeniu {
+
   /* acum se va interpola intre valorile din keyframe-uri */
   0% {
     opacity: 0;
     transform: scale(0, 0);
   }
+
   100% {
     opacity: 1;
     transform: scale(1, 1);
   }
 }
+
 @keyframes animatie_buton {
   0% {
     opacity: 0;
     transform: scale(0, 0);
   }
+
   100% {
     opacity: var(--button-opacity);
     transform: scale(1, 1);
