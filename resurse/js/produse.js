@@ -7,7 +7,7 @@ window.onload = function () {
 
     //schimbarea temei nu e predata, restul la munca
 
-
+    //actualizeaza inputul de tip range
     document.getElementById("inp-rezolutie").oninput = function () {
         let val = this.value.trim();
         document.getElementById("infoRezolutie").innerHTML = `(${val} Mpx)`;
@@ -46,7 +46,7 @@ window.onload = function () {
                 if (!regexCuvantCheie.test(token)) {
                     alert("Eroare Validare Cuvinte Cheie: Fiecare cuvânt trebuie să înceapă cu '+' sau '-' și să conțină doar litere, numere și cratime (ex: +4k -second-hand).");
 
-                    // adăug clasa de eroare cerută de Bootstrap pentru floating label
+                    // adauga clasa de eroare pentru floating label
                     document.getElementById("inp-cuvinte").classList.add("is-invalid");
                     return false;
                 }
@@ -67,7 +67,7 @@ window.onload = function () {
 
         // preluare val radio
         let radioSenzor = document.getElementsByName("gr_senzor");
-        let senzorSelectat = "toate";
+        let senzorSelectat = "toate"; //valoare default
         for (let r of radioSenzor) {
             if (r.checked) {
                 senzorSelectat = r.value;
@@ -123,6 +123,8 @@ window.onload = function () {
             let descriereProd = prod.getElementsByClassName("val-descriere")[0].textContent.trim().toLowerCase();
             let pretProd = parseFloat(prod.getElementsByClassName("val-pret")[0].textContent.trim());
 
+            prod.style.display = "none";
+
             //nume
             let condNume = numeProd.includes(inpNume);
 
@@ -164,24 +166,53 @@ window.onload = function () {
             // filtrare efecitva
             if (condNume && condCategorie && condRezolutie && condBrand && condSenzor && condIbis && condTextarea && condPretInterval) {
                 prod.style.display = "block";
-            } else {
-                prod.style.display = "none";
             }
+        }
+        let chkSalveaza = document.getElementById("inp-salveaza-filtre");
+        if (chkSalveaza && chkSalveaza.checked) {
+            let obiectFiltre = {
+                nume: document.getElementById("inp-nume").value,
+                categorie: document.getElementById("inp-categorie").value,
+                rezolutie: document.getElementById("inp-rezolutie").value,
+                brand: document.getElementById("inp-brand").value,
+                senzor: senzorSelectat,
+                ibis: ibisDoarActive,
+                cuvinte: textCuvinte,
+                intervalePret: Array.from(document.getElementById("inp-intervale-pret").options).map(opt => opt.selected)
+            };
+            localStorage.setItem("filtre_salvate", JSON.stringify(obiectFiltre));
+        } else {
+            // Dacă utilizatorul filtrează având căsuța DEBIFATĂ, opțional poți șterge vechea salvare
+            localStorage.removeItem("filtre_salvate");
         }
     };
 
-    document.getElementById("filtrare").onclick = function () { if (!validareInput()) return; filtrare() }
+    document.getElementById("filtrare").onclick = function () {
+        if (!validareInput()) return;
+
+        // sterge parametrii din URL fără a reîncărca pagina (pentru atunci cand intri din meniu in pagina)
+        if (window.location.search !== "") { // daca exista parametrii in URL
+            // inlocuiește URL-ul curent cu calea simpla
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
+        filtrare();
+    }
 
 
     document.getElementById("resetare").onclick = function () {
         if (confirm("Doriți să resetați toate filtrele aplicate?")) {
+            //stergere filtre salvate
+            document.getElementById("inp-salveaza-filtre").checked = false;
+            localStorage.removeItem("filtre_salvate");
+
             // Resetare filtre reintroduse
             document.getElementById("inp-nume").value = "";
             document.getElementById("inp-categorie").value = "toate";
 
             // Resetare celelalte controale
-            document.getElementById("inp-rezolutie").value = 12;
-            document.getElementById("infoRezolutie").innerHTML = "(12 Mpx)";
+            document.getElementById("inp-rezolutie").value = 2;
+            document.getElementById("infoRezolutie").innerHTML = "(2 Mpx)";
             document.getElementById("inp-brand").value = "";
             document.getElementById("senzor_toate").checked = true;
             document.getElementById("inp-ibis").checked = false;
@@ -220,8 +251,6 @@ window.onload = function () {
         })
         for (let prod of vProduse) {
             prod.parentElement.appendChild(prod)
-            // muta fiecare produs din vector la finalul containerului
-            //asta practic face sortarea sa se afiseze pe pagina
         }
     }
 
@@ -235,7 +264,7 @@ window.onload = function () {
         let produse = document.getElementsByClassName("produs")
         let suma = 0
         for (let prod of produse) {
-            if (prod.style.display != "none") { // ca sa nu o calculam degeaba
+            if (prod.style.display != "none") { // calculam doar pt prod afisate
                 let pret = parseFloat(prod.getElementsByClassName("val-pret")[0].innerHTML.trim())
                 suma += pret;
             }
@@ -267,16 +296,60 @@ window.onload = function () {
     const urlParams = new URLSearchParams(window.location.search);
     const tipParam = urlParams.get('tip');
 
+    //daca exista parametrul pt tip, il pune in filtre si executa filtrarea
     if (tipParam) {
         let selectCategorie = document.getElementById("inp-categorie");
         if (selectCategorie) {
             //seteaza valoarea din select
-            selectCategorie.value = opt.value;
+            selectCategorie.value = tipParam;
             // da automat click pe butonul de filtrare
             let butonFiltrare = document.getElementById("filtrare");
             if (butonFiltrare) {
                 butonFiltrare.click();
             }
+        }
+    }
+
+    // De adăugat la finalul window.onload, după logica parametrului din URL
+    const filtreSalvateRaw = localStorage.getItem("filtre_salvate");
+
+    // Aplicăm filtrele persistente doar dacă NU avem un parametru "?tip" activ în URL
+    if (filtreSalvateRaw && !tipParam) {
+        try {
+            const filtre = JSON.parse(filtreSalvateRaw);
+
+            // Restaurare valori inputuri simple
+            document.getElementById("inp-nume").value = filtre.nume;
+            document.getElementById("inp-categorie").value = filtre.categorie;
+            document.getElementById("inp-rezolutie").value = filtre.rezolutie;
+            document.getElementById("infoRezolutie").innerHTML = `(${filtre.rezolutie} Mpx)`;
+            document.getElementById("inp-brand").value = filtre.brand;
+            document.getElementById("inp-cuvinte").value = filtre.cuvinte;
+            document.getElementById("inp-salveaza-filtre").checked = true;
+
+            // Restaurare butoane radio (Tip Senzor)
+            let radioSenzor = document.getElementsByName("gr_senzor");
+            for (let r of radioSenzor) {
+                r.checked = (r.value === filtre.senzor);
+            }
+
+            // Restaurare checkbox IBIS
+            document.getElementById("inp-ibis").checked = filtre.ibis;
+
+            // Restaurare selecție multiplă (Intervale Preț)
+            let selectMultiplu = document.getElementById("inp-intervale-pret");
+            if (filtre.intervalePret && selectMultiplu) {
+                for (let i = 0; i < selectMultiplu.options.length; i++) {
+                    if (filtre.intervalePret[i] !== undefined) {
+                        selectMultiplu.options[i].selected = filtre.intervalePret[i];
+                    }
+                }
+            }
+
+            // Reapelăm funcția de filtrare pentru a ascunde produsele necorespunzătoare
+            filtrare();
+        } catch (e) {
+            console.error("Eroare la restaurarea filtrelor din localStorage:", e);
         }
     }
 }

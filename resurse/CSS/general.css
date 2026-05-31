@@ -395,6 +395,50 @@ footer {
     margin-left: 10px;
 }
 
+/* CERINTA BANNER */
+
+/* --- Cerință Banner Proiect Școlar --- */
+
+#banner[style*="display: none"] {
+    animation: none !important;
+}
+
+#banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 20;
+    
+    background-color: var(--col-3);
+    
+    /* Proprietăți de text și padding pentru aspect */
+    text-align: center;
+    padding: 10px 0;
+    font-weight: bold;
+
+    /* Starea inițială: ascuns sub ecran */
+    transform: translateY(100%);
+    
+    /* Configurare animație */
+    animation: afisareBanner 3s linear forwards;
+}
+
+/* Definirea animației pentru translație și schimbarea culorii textului */
+@keyframes afisareBanner {
+    0% {
+        transform: translateY(100%);
+    }
+    /* La jumătatea timpului (1.5s), bannerul urcă lăsând un spațiu de 20px jos */
+    50% {
+        transform: translateY(-20px);
+        color: var(--col-2); /* Schimbăm culoarea textului în cadrul animației */
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
 #link-top {
     position: fixed;
     display: block;
