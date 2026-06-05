@@ -310,7 +310,8 @@ window.onload = function () {
         }
     }
 
-    // De adăugat la finalul window.onload, după logica parametrului din URL
+// ==== filtre persistente ====
+
     const filtreSalvateRaw = localStorage.getItem("filtre_salvate");
 
     // Aplicăm filtrele persistente doar dacă NU avem un parametru "?tip" activ în URL
@@ -353,61 +354,4 @@ window.onload = function () {
         }
     }
 
-    // Inițializăm obiectul de modal din Bootstrap
-    const instantaModal = new bootstrap.Modal(document.getElementById('modalProdus'));
-
-    // Luăm toate containerele de produse
-    let containereProduse = document.getElementsByClassName("produs");
-
-    for (let prod of containereProduse) {
-        prod.onclick = function (eveniment) {
-            // Ignorăm click-ul dacă utilizatorul a apăsat pe checkbox-ul de coș sau pe eticheta acestuia
-            if (eveniment.target.closest('.selecteaza-cos') || eveniment.target.classList.contains('select-cos')) {
-                return;
-            }
-
-            // Extragerea datelor direct din elementele copil ale produsului curent
-            let nume = this.getElementsByClassName("val-nume")[0].textContent.trim();
-            let categorie = this.getElementsByClassName("val-categorie")[0].textContent.trim();
-            let descriere = this.getElementsByClassName("val-descriere")[0].textContent.trim();
-            let imagineSrc = this.getElementsByTagName("img")[0].src;
-            let pret = this.getElementsByClassName("val-pret")[0].textContent.trim();
-            let brand = this.getElementsByClassName("val-brand")[0].textContent.trim();
-            let rezolutie = this.getElementsByClassName("val-rezolutie")[0].textContent.trim();
-            let senzor = this.getElementsByClassName("val-senzor")[0].textContent.trim();
-            let ibis = this.getElementsByClassName("val-ibis")[0].textContent.trim();
-            let conectivitate = this.getElementsByClassName("val-conectivitate")[0].textContent.trim();
-
-            // Populam titlul modalei
-            document.getElementById("modalProdusLabel").innerHTML = `<i class="fa-solid fa-camera"></i> ${nume}`;
-
-            // Generăm HTML-ul pentru interiorul modalei folosind clase Bootstrap și culorile temei
-            let htmlCorp = `
-            <div class="row g-3">
-                <div class="col-md-5 text-center">
-                    <img src="${imagineSrc}" class="img-fluid rounded border mb-2" style="border-color: var(--col-3) !important; max-height: 250px; object-fit: cover;" alt="${nume}">
-                    <div class="h4 mt-2" style="color: var(--col-5);">${pret} RON</div>
-                </div>
-                <div class="col-md-7">
-                    <h5>Specificatii Tehnice</h5>
-                    <p class="mb-2"><strong>Categorie:</strong> ${categorie}</p>
-                    <p class="mb-2"><strong>Brand:</strong> ${brand}</p>
-                    <p class="mb-2"><strong>Rezoluție Senzor:</strong> ${rezolutie} Mpx</p>
-                    <p class="mb-2"><strong>Dimensiune Senzor:</strong> ${senzor}</p>
-                    <p class="mb-2"><strong>Stabilizare Corp (IBIS):</strong> ${ibis}</p>
-                    <p class="mb-2"><strong>Porturi & Conectivitate:</strong> ${conectivitate}</p>
-                    <hr style="color: var(--col-3);">
-                    <h5>Descriere Produs</h5>
-                    <p class="text-muted" style="font-size: 0.95rem; line-height: 1.5;">${descriere}</p>
-                </div>
-            </div>
-        `;
-
-            // Injectăm HTML-ul generat în corpul modalei
-            document.getElementById("modal-corp").innerHTML = htmlCorp;
-
-            // Afișăm vizual fereastra modală pe ecran
-            instantaModal.show();
-        };
-    }
 }

@@ -2,7 +2,7 @@
 function setCookie(nume, val, timpExpirare){//timpExpirare in milisecunde
     d=new Date();
     d.setTime(d.getTime()+timpExpirare)
-    document.cookie=`${nume}=${val}; expires=${d.toUTCString()}`;
+    document.cookie=`${nume}=${val}; expires=${d.toUTCString()}`;   
 }
 
 function getCookie(nume){
@@ -51,13 +51,13 @@ window.addEventListener("DOMContentLoaded", function() {
         
         if(linkProdus) {
             linkProdus.addEventListener("click", function() {
-                // extragem numele produsului si idul sau urlul sau
+                // extragem numele produsului si idul sau urlul
                 let numeProdus = linkProdus.innerText;
                 let urlProdus = linkProdus.getAttribute("href");
                 
                 // stocam datele sub forma de string json in cookie, valabil jumatate de zi (43200000 ms)
                 let dateProdus = JSON.stringify({ nume: numeProdus, url: urlProdus });
-                setProdusCookie("ultimul_produs", dateProdus, 43200000);
+                setCookie("ultimul_produs", dateProdus, 43200000);
             });
         }
     });
@@ -66,7 +66,7 @@ window.addEventListener("DOMContentLoaded", function() {
 // afisarea linkului la incarcarea paginii de produse
 window.addEventListener("DOMContentLoaded", function() {
     let container = document.getElementById("container-ultimul-produs");
-    let cookieUltimulProdus = getProdusCookie("ultimul_produs");
+    let cookieUltimulProdus = getCookie("ultimul_produs");
 
     if (cookieUltimulProdus && container) {
         try {

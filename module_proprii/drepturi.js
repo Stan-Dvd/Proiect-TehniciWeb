@@ -22,8 +22,8 @@ const Drepturi = {
 	stergereUtilizatori: Symbol("stergereUtilizatori"),
 	cumparareProduse: Symbol("cumparareProduse"),
 	adaugareProduse: Symbol("adaugareProduse"),
-	modificareProduse: Symbol("adaugareProduse"),
-	stergereProduse: Symbol("adaugareProduse")
+	modificareProduse: Symbol("modificareProduse"),
+	stergereProduse: Symbol("stergereProduse")
 }
 
 module.exports = Drepturi;
