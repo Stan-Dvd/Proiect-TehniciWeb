@@ -30,7 +30,7 @@
 
                 <p>Stabilizare imagine integrată (IBIS): <span class="ibis"><%- locals.prod.ibis %></span>
                 </p>
-                
+
                 <p class="data_lansare">Data lansare:
                     <time class="val-data_lansare" datetime="<%- prod.data_iso %>"><%- prod.data_romana %></time>
                 </p>
@@ -40,6 +40,55 @@
                         alt="[imagine <%- locals.prod.nume %>]" />
                 </figure>
             </article>
+            <% if (locals.seturi && locals.seturi.length> 0) { %>
+                <section class="container mt-5 p-4 rounded border shadow-sm bg-light text-dark mb-4">
+                    <h4 class="mb-4 text-center border-bottom pb-2" style="color: var(--col-5);">
+                        <i class="fa-solid fa-tags"></i> Acest produs face parte din următoarele pachete promoționale:
+                    </h4>
+                    <div class="row g-3">
+                        <% for (let set of seturi) { %>
+                            <div class="col-md-6">
+                                <div class="card h-100 border-2"
+                                    style="border-color: var(--col-3); background-color: var(--col-1);">
+                                    <div class="card-header fw-bold text-white text-center"
+                                        style="background-color: var(--col-4);">
+                                        <%= set.nume_set %>
+                                    </div>
+                                    <div class="card-body d-flex flex-column justify-content-between">
+                                        <div>
+                                            <p class="card-text text-muted" style="font-size: 0.9rem;">
+                                                <%= set.descriere_set %>
+                                            </p>
+                                            <h6 class="mt-2 text-dark">Componentele pachetului:</h6>
+                                            <ul style="font-size: 0.9rem;">
+                                                <% for (let p of set.produse) { %>
+                                                    <li>
+                                                        <% if (p.id==prod.id) { %>
+                                                            <strong class="text-decoration-underline">
+                                                                <%= p.nume %> (Produsul curent)
+                                                            </strong>
+                                                            <% } else { %>
+                                                                <a href="/produs/<%= p.id %>" class="fw-bold text-dark">
+                                                                    <%= p.nume %>
+                                                                </a>
+                                                                <% } %>
+                                                    </li>
+                                                    <% } %>
+                                            </ul>
+                                        </div>
+                                        <div class="mt-3 p-2 rounded text-center"
+                                            style="background-color: var(--col-2); font-weight: bold;">
+                                            Preț Special Pachet: <span class="fs-5 text-danger">
+                                                <%= set.pretFinal %> RON
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                    </div>
+                </section>
+                <% } %>
 
         </section>
     </main>

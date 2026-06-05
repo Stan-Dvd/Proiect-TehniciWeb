@@ -395,26 +395,137 @@ app.get("/produse", function(req, res){
     })
 })
 
-app.get("/produs/:id", function(req, res){
-    client.query(`select * from cam_view where id=${req.params.id}`, function(err, rez){
-    if (err){
-        console.log("Eroare", err)
-        afisareEroare(res,2)
-    }
-    else{
-        if (rez.rowCount==0){
-            afisareEroare(res,404,"Produs inexistent")
+// Ruta pentru afișarea tuturor seturilor de produse
+app.get("/seturi", function (req, res) {
+    // Interogare complexă pentru a aduce seturile împreună cu toate produsele asociate lor într-un singur query folosind JSON_AGG
+    const querySeturi = `
+        SELECT s.id AS set_id, s.nume_set, s.descriere_set,
+               json_agg(json_build_object(
+                   'id', c.id,
+                   'nume', c.nume,
+                   'pret', c.pret,
+                   'imagine', c.imagine
+               )) AS produse
+        FROM seturi s
+        JOIN asociere_set asoc ON s.id = asoc.id_set
+        JOIN camere c ON asoc.id_produs = c.id
+        GROUP BY s.id, s.nume_set, s.descriere_set
+        ORDER BY s.id ASC;
+    `;
+
+    client.query(querySeturi, function (err, rezQuery) {
+        if (err) {
+            console.error("Eroare la preluarea seturilor:", err);
+            // Presupunem că ai o funcție afisareEroare definită în index.js
+            if (typeof afisareEroare === "function") afisareEroare(res, 500); 
+            else res.status(500).send("Eroare Server");
+        } else {
+            // Calculăm prețul cu reducere pentru fiecare set direct în JS înainte de randare
+            let seturiProcesate = rezQuery.rows.map(set => {
+                let n = set.produse.length;
+                let sumaPreturi = set.produse.reduce((sum, prod) => sum + parseFloat(prod.pret), 0);
+                let reducereProcent = Math.min(5, n) * 5; // min(5, n) * 5%
+                let pretFinal = sumaPreturi * (1 - reducereProcent / 100);
+                
+                return {
+                    ...set,
+                    sumaPreturi: sumaPreturi.toFixed(2),
+                    pretFinal: pretFinal.toFixed(2),
+                    reducereProcent: reducereProcent
+                };
+            });
+
+            res.render("pagini/seturi", {
+                seturi: seturiProcesate
+            });
         }
-        else{
+    });
+});
+
+// app.get("/produs/:id", function(req, res){
+//     client.query(`select * from cam_view where id=${req.params.id}`, function(err, rez){
+//     if (err){
+//         console.log("Eroare", err)
+//         afisareEroare(res,2)
+//     }
+//     else{
+//         if (rez.rowCount==0){
+//             afisareEroare(res,404,"Produs inexistent")
+//         }
+//         else{
             
-            res.render("pagini/produs",{
-                prod:rez.rows[0],
-            })
-        }
+//             res.render("pagini/produs",{
+//                 prod:rez.rows[0],
+//             })
+//         }
         
-    }
-})
-})
+//     }
+// })
+// })
+
+// Ruta modificată pentru pagina unui singur produs
+app.get("/produs/:id", function (req, res) {
+    
+    // preluam datele produsului curent
+    client.query(`SELECT * FROM cam_view WHERE id = ${req.params.id}`, function (err, rezProdus) {
+        if (err) {
+            console.error("Eroare la preluarea produsului:", err);
+            afisareEroare(res, 500);
+        } else if (rezProdus.rowCount == 0) {
+            afisareEroare(res, 404, "Produs inexistent");
+        } else {
+            let produsCurent = rezProdus.rows[0];
+
+            // preluam seturile din care face parte camera
+            // folosim un sub-query pentru a gasi ID-urile seturilor asociate
+            const querySeturiProdus = `
+                SELECT s.id AS set_id, s.nume_set, s.descriere_set,
+                       json_agg(json_build_object(
+                           'id', c.id,
+                           'nume', c.nume,
+                           'pret', c.pret,
+                           'imagine', c.imagine
+                       )) AS produse
+                FROM seturi s
+                JOIN asociere_set asoc ON s.id = asoc.id_set
+                JOIN camere c ON asoc.id_produs = c.id
+                WHERE s.id IN (
+                    SELECT id_set FROM asociere_set WHERE id_produs = ${req.params.id}
+                )
+                GROUP BY s.id, s.nume_set, s.descriere_set
+                ORDER BY s.id ASC;
+            `;
+
+            client.query(querySeturiProdus, function (errSeturi, rezSeturi) {
+                if (errSeturi) {
+                    console.error("Eroare la preluarea seturilor pentru produs:", errSeturi);
+                    afisareEroare(res, 500);
+                } else {
+                    // Pasul 3: Procesăm formulele de reducere pentru fiecare pachet în parte
+                    let seturiProcesate = rezSeturi.rows.map(set => {
+                        let n = set.produse.length;
+                        let sumaPreturi = set.produse.reduce((sum, prod) => sum + parseFloat(prod.pret), 0);
+                        let reducereProcent = Math.min(5, n) * 5; // Formula min(5, n) * 5%
+                        let pretFinal = sumaPreturi * (1 - reducereProcent / 100);
+
+                        return {
+                            ...set,
+                            sumaPreturi: sumaPreturi.toFixed(2),
+                            pretFinal: pretFinal.toFixed(2),
+                            reducereProcent: reducereProcent
+                        };
+                    });
+
+                    // Pasul 4: Trimitem atât pachetul 'prod', cât și pachetul 'seturi' către template-ul EJS
+                    res.render("pagini/produs", {
+                        prod: produsCurent,
+                        seturi: seturiProcesate
+                    });
+                }
+            });
+        }
+    });
+});
 
 // ==== UTILIZATORI ====
 

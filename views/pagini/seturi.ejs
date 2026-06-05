@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta name="description" content="Camera Obscura vă oferă seturi promoționale de echipamente fotografice cu reduceri substanțiale.">
+    <meta name="keywords" content="magazin, seturi, promotii, camere foto, obiective, reducere camera foto">
+    <link rel="stylesheet" href="/resurse/css/seturi.css" type="text/css" />
+    <title>Camera Obscura - Seturi Promoționale</title>
+    <%- include("../fragmente/head") %>
+</head>
+
+<body>
+    <%- include("../fragmente/header") %>
+
+    <main class="container my-5">
+        <h2 class="text-center mb-5 section-title">Seturi de Produse</h2>
+
+        <section id="sectiune-seturi">
+            <% if (locals.seturi && locals.seturi.length > 0) { %>
+                <% for (let set of seturi) { %>
+                    <div class="set-container mb-5">
+                        <div class="set-banner">
+                            <h3></i> <%= set.nume_set %></h3>
+                        </div>
+
+                        <div class="set-content-wrapper">
+                            
+                            <div class="set-stanga">
+                                <div class="set-descriere mb-4">
+                                    <h5>Descriere Pachet:</h5>
+                                    <p><%= set.descriere_set %></p>
+                                </div>
+                                <div class="set-produse-lista">
+                                    <h5>Componente set:</h5>
+                                    <ul>
+                                        <% for (let p of set.produse) { %>
+                                            <li>
+                                                <a href="/produs/<%= p.id %>" class="link-produs-set">
+                                                    <%= p.nume %>
+                                                </a> 
+                                                <span class="text-muted">(<%= p.pret %> RON)</span>
+                                            </li>
+                                        <% } %>
+                                    </ul>
+                                </div>
+                                <div class="set-pret-zona mt-4">
+                                    <div class="pret-vechi text-muted">Preț cumulat: <s><%= set.sumaPreturi %> RON</s></div>
+                                    <div class="reducere-badge">Reducere aplicată: <%= set.reducereProcent %>%</div>
+                                    <div class="pret-nou">Preț Set: <span><%= set.pretFinal %> RON</span></div>
+                                </div>
+                            </div>
+
+                            <div class="set-dreapta">
+                                <div class="grid-imagini-set">
+                                    <% for (let p of set.produse) { %>
+                                        <div class="card-imagine-set">
+                                            <a href="/produs/<%= p.id %>">
+                                                <img src="/resurse/imagini/produse/<%= p.imagine %>" alt="[imagine <%= p.nume %>]" class="img-fluid rounded border shadow-sm" />
+                                            </a>
+                                            <div class="nume-scurt-produs text-center mt-1">
+                                                <a href="/produs/<%= p.id %>"><%= p.nume %></a>
+                                            </div>
+                                        </div>
+                                    <% } %>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                <% } %>
+            <% } else { %>
+                <p class="text-center">Nu există seturi disponibile în acest moment.</p>
+            <% } %>
+        </section>
+    </main>
+
+    <%- include("../fragmente/footer") %>
+</body>
+
+</html>

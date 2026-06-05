@@ -230,9 +230,32 @@
                         <% } %>
                 </div>
             </section>
+
+            <div class="modal fade" id="modalProdus" tabindex="-1" aria-labelledby="modalProdusLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content" style="background-color: var(--col-1); border: 2px solid var(--col-5);">
+                        <div class="modal-header"
+                            style="border-bottom: 1px solid var(--col-2); background-color: var(--col-4); color: var(--col-1);">
+                            <h5 class="modal-title id=" modalProdusLabel" id="modal-titlu">Denumire Produs</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-dark" id="modal-corp">
+                        </div>
+                        <div class="modal-footer" style="border-top: 1px solid var(--col-2);">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Închide</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
 
+
         <%- include("../fragmente/footer") %>
+
+
+
 </body>
 
 </html>

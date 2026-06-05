@@ -1,15 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // incarcam starea salvată din localStorage (sau un array gol dacă nu există nimic salvat)
+    // incarcam starea salvata din localStorage
     let acorduriDeschise = JSON.parse(localStorage.getItem("acordeoaneDeschise")) || [];
 
-    // aplicăm starea salvată: deschidem acordeoanele care erau deschise la ultima vizită
+    // aplicam starea salvata
     acorduriDeschise.forEach(id => {
         let elementCollapse = document.getElementById(`collapse-${id}`);
         let butonAcordeon = document.querySelector(`[data-bs-target="#collapse-${id}"]`);
         
         if (elementCollapse && butonAcordeon) {
             elementCollapse.classList.add("show"); // deschide conținutul
-            butonAcordeon.classList.remove("collapsed"); // dodifică aspectul butonului
+            butonAcordeon.classList.remove("collapsed"); // modifică aspectul butonului
             butonAcordeon.setAttribute("aria-expanded", "true");
         }
     });
